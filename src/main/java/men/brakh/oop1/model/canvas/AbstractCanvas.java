@@ -13,9 +13,7 @@ import java.util.Optional;
  */
 public abstract class AbstractCanvas {
     private List<Figure> figures = new ArrayList<>();
-    private String brushColor = "#000000";
-    private String penColor = "#000000";
-    private int borderSize = 2;
+
 
     /**
      * Очистка полотна
@@ -71,43 +69,27 @@ public abstract class AbstractCanvas {
 
     /**
      * Отрисовка прямоугольника
-     * @param leftBottom Левая нижняя точка
-     * @param rightTop Правая верхняя точка
+     * @param leftTop Левая верхняя точка
+     * @param rightBottom Правая нижняя точка
      */
-    public abstract void drawRectangle(Point leftBottom, Point rightTop);
+    public abstract void drawRectangle(Point leftTop, Point rightBottom);
 
     /**
      * Отрисовка овала
-     * @param leftBottom Левая нижняя точка (Если вписать в прямоугольник)
-     * @param rightTop Правая верхняя точка (Если вписать в прямоугольник)
+     * @param leftTop Левая верхняя точка (Если вписать в прямоугольник)
+     * @param rightBottom Правая нижняя точка (Если вписать в прямоугольник)
      */
-    public abstract void drawOval(Point leftBottom, Point rightTop);
+    public abstract void drawOval(Point leftTop, Point rightBottom);
 
     /*
-     * ГЕТЕРЫ И СЕТТЕРЫ
+     * ПОЛЯ САМОГО КАНВАСА
      */
 
-    public String getBrushColor() {
-        return brushColor;
-    }
 
-    public void setBrushColor(String brushColor) {
-        this.brushColor = brushColor;
-    }
-
-    public String getPenColor() {
-        return penColor;
-    }
-
-    public void setPenColor(String penColor) {
-        this.penColor = penColor;
-    }
-
-    public int getBorderSize() {
-        return borderSize;
-    }
-
-    public void setBorderSize(int borderSize) {
-        this.borderSize = borderSize;
-    }
+    public abstract String getBrushColor();
+    public abstract void setBrushColor(String brushColor);
+    public abstract String getPenColor();
+    public abstract void setPenColor(String penColor);
+    public abstract int getBorderSize();
+    public abstract void setBorderSize(int borderSize);
 }
