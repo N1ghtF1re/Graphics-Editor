@@ -1,5 +1,6 @@
 package men.brakh.oop1.model.figure;
 
+import men.brakh.oop1.model.Point;
 import men.brakh.oop1.model.PointType;
 import men.brakh.oop1.model.canvas.Canvas;
 
@@ -16,18 +17,38 @@ public abstract class RectFigure implements Figure {
     private double x2; // Правая верхняя
     private double y2; // Точка
 
+
     /**
      * Конструктор фигуры, которую можно вписать в прямоугольник
      * @param canvas Объект канваса
-     * @param x0 Начальная координата х
-     * @param y0 Начальная координата y
+     * @param startPoint Начальные координаты
      */
-    public RectFigure(Canvas canvas, double x0, double y0) {
+    public RectFigure(Canvas canvas, Point startPoint) {
         this.canvas = canvas;
-        this.x1 = x0;
-        this.y1 = y0;
-        this.x2 = x0;
-        this.y2 = y0;
+        this.x1 = startPoint.getX();
+        this.y1 = startPoint.getY();
+        this.x2 = startPoint.getX();
+        this.y2 = startPoint.getY();
+    }
+
+    /**
+     * Координаты левой нижней точки
+     * @return Координаты левой нижней точки
+     */
+    protected Point getLeftBottomPoint() {
+        return new Point(x1, y1);
+    }
+
+    /**
+     * Коордитаты правоый верхней точки
+     * @return Коордитаты правоый верхней точки
+     */
+    protected Point getRightTopPoint() {
+        return new Point(x2, y2);
+    }
+
+    public PointType checkPoint(Point point) {
+        return null;
     }
 
     /**
