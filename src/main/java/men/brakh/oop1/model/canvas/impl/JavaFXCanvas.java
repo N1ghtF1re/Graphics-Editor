@@ -33,12 +33,12 @@ public class JavaFXCanvas extends AbstractCanvas {
 
     @Override
     public void drawRectangle(Point leftTop, Point rightBottom) {
-        gc.fillRect(leftTop.getX(), leftTop.getY(), rightBottom.getX(), rightBottom.getY());
+        gc.fillRect(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());
     }
 
     @Override
     public void drawOval(Point leftTop, Point rightBottom) {
-        gc.fillOval(leftTop.getX(), leftTop.getY(), rightBottom.getX(), rightBottom.getY());
+        gc.fillOval(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());
     }
 
     @Override
