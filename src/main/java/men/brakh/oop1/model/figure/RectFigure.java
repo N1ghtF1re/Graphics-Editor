@@ -1,6 +1,6 @@
 package men.brakh.oop1.model.figure;
 
-import men.brakh.oop1.model.ResizeType;
+import men.brakh.oop1.model.PointType;
 import men.brakh.oop1.model.canvas.Canvas;
 
 /**
@@ -8,7 +8,7 @@ import men.brakh.oop1.model.canvas.Canvas;
  */
 public abstract class RectFigure implements Figure {
 
-    private Canvas canvas;
+    protected Canvas canvas;
 
     private double x1; // Левая нижняя
     private double y1; // Точка
@@ -32,40 +32,42 @@ public abstract class RectFigure implements Figure {
 
     /**
      * Изменение размера фигуры
-     * @param resizeType Тип перемещения ({@link ResizeType})
+     * @param pointType Тип точку, которую тянем ({@link PointType})
      * @param deltaX Старый X - Новый X
      * @param deltaY Старый Y - Новый Y
      */
-    public void resize(ResizeType resizeType, double deltaX, double deltaY) {
-        switch (resizeType) {
-            case RESIZE_LT_VERTEX: // Левый верхний
+    public void resize(PointType pointType, double deltaX, double deltaY) {
+        switch (pointType) {
+            case LT_VERTEX: // Левый верхний
                 x1 += deltaX;
                 y2 += deltaY;
                 break;
-            case RESIZE_RT_VERTEX: // Правый верхний
+            case RT_VERTEX: // Правый верхний
                 x2 += deltaX;
                 y2 += deltaY;
                 break;
-            case RESIZE_LB_VERTEX: // Левый нижний
+            case LB_VERTEX: // Левый нижний
                 x1 += deltaX;
                 y1 += deltaY;
                 break;
-            case RESIZE_RB_VERTEX: // Правый нижний
+            case RB_VERTEX: // Правый нижний
                 x2 += deltaX;
                 y1 += deltaY;
                 break;
-            case RESIZE_L_SIDE:
+            case LEFT_SIDE:
                 x1 += deltaX;
                 break;
-            case RESIZE_R_SIDE:
+            case RIGHT_SIDE:
                 x2 += deltaX;
                 break;
-            case RESIZE_T_SIDE:
+            case TOP_SIDE:
                 y2 += deltaY;
                 break;
-            case RESIZE_B_SIDE:
+            case BOTTOM_SIDE:
                 y1 += deltaY;
                 break;
+            default:
+                throw new UnsupportedOperationException();
         }
     }
 
