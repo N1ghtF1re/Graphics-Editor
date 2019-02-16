@@ -10,6 +10,41 @@ import java.util.Properties;
 public class GraphicEditorConfig {
     private static GraphicEditorConfig instance;
 
+
+    /**
+     * Количество пикселей, в радиусе которых нажатие на точку будет засчитываться
+     */
+    private int pointAreaSize;
+
+    /**
+     * Минимальная высота окна редактора
+     */
+    private int minFrameHeight;
+
+    /**
+     * Минимальная ширина окна редактора
+     */
+    private int minFrameWidth;
+
+
+
+
+    /*
+     * ГЕТТЕРЫ, КОНСТРУКТОР
+     */
+
+    public int getPointAreaSize() {
+        return pointAreaSize;
+    }
+
+    public int getMinFrameHeight() {
+        return minFrameHeight;
+    }
+
+    public int getMinFrameWidth() {
+        return minFrameWidth;
+    }
+
     /**
      * Получение синглтона
      */
@@ -18,15 +53,6 @@ public class GraphicEditorConfig {
             instance = new GraphicEditorConfig();
         }
         return instance;
-    }
-
-    /**
-     * Количество пикселей, в радиусе которых нажатие на точку будет засчитываться
-     */
-    private int pointAreaSize;
-
-    public int getPointAreaSize() {
-        return pointAreaSize;
     }
 
     private GraphicEditorConfig() {
@@ -41,5 +67,8 @@ public class GraphicEditorConfig {
 
         // Заполняем значения
         pointAreaSize = Integer.valueOf(editorProps.getProperty("point.area.size"));
+        minFrameHeight = Integer.valueOf(editorProps.getProperty("frame.minHeight"));
+        minFrameWidth = Integer.valueOf(editorProps.getProperty("frame.minWidth"));
+
     }
 }
