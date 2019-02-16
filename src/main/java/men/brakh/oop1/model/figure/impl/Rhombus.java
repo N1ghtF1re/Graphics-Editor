@@ -4,19 +4,19 @@ import men.brakh.oop1.model.Point;
 import men.brakh.oop1.model.canvas.AbstractCanvas;
 import men.brakh.oop1.model.figure.AbstractSquareFigure;
 
-public class Square extends AbstractSquareFigure {
+public class Rhombus extends AbstractSquareFigure {
     /**
-     * Конструктор квадрата
+     * Конструктор фигуры, которую можно вписать в квадрат
      *
      * @param canvas     Объект канваса
      * @param startPoint Начальные координаты
      */
-    public Square(AbstractCanvas canvas, Point startPoint) {
+    public Rhombus(AbstractCanvas canvas, Point startPoint) {
         super(canvas, startPoint);
     }
 
     @Override
     public void draw() {
-        canvas.drawRectangle(getLeftTopPoint(), getRightBottomPoint());
+        canvas.drawRhombus(getLeftTopPoint(), getRightBottomPoint());
     }
 }

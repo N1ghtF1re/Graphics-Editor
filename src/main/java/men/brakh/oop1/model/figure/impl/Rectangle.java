@@ -6,7 +6,7 @@ import men.brakh.oop1.model.figure.AbstractRectFigure;
 
 public class Rectangle extends AbstractRectFigure {
     /**
-     * Конструктор фигуры, которую можно вписать в прямоугольник
+     * Конструктор прямоугольника
      *
      * @param canvas     Объект канваса
      * @param startPoint Начальные координаты

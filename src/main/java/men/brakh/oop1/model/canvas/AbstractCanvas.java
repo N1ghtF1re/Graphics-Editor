@@ -81,10 +81,16 @@ public abstract class AbstractCanvas {
      */
     public abstract void drawOval(Point leftTop, Point rightBottom);
 
+    /**
+     * Отрисовка ромба
+     * @param leftTop Левая верхняя точка (Если вписать в прямоугольник)
+     * @param rightBottom Правая нижняя точка (Если вписать в прямоугольник)
+     */
+    public abstract void drawRhombus(Point leftTop, Point rightBottom);
+
     /*
      * ПОЛЯ САМОГО КАНВАСА
      */
-
 
     public abstract String getBrushColor();
     public abstract void setBrushColor(String brushColor);

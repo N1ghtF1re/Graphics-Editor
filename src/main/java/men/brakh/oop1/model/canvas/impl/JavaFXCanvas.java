@@ -42,6 +42,20 @@ public class JavaFXCanvas extends AbstractCanvas {
     }
 
     @Override
+    public void drawRhombus(Point leftTop, Point rightBottom) {
+        int leftX = leftTop.getX();
+        int topAndBottomX = leftTop.getX() + (rightBottom.getX() - leftTop.getX()) / 2;
+        int rightX = rightBottom.getX();
+
+        int leftAndRightY = leftTop.getY() + (rightBottom.getY() - leftTop.getY()) / 2;
+        int topY = leftTop.getY();
+        int bottomY = rightBottom.getY();
+
+        gc.fillPolygon(new double[]{leftX, topAndBottomX, rightX, topAndBottomX},
+                new double[]{leftAndRightY, topY, leftAndRightY, bottomY}, 4);
+    }
+
+    @Override
     public String getBrushColor() {
         return gc.getFill().toString();
     }
