@@ -71,7 +71,7 @@ public class RectFigureTest {
 
     @Test
     public void checkPointTest() {
-        double delta = config.getPointAreaSize();
+        int delta = config.getPointAreaSize();
 
         RectFigureImpl figure = new RectFigureImpl(new Point(10, 120));
         figure.resize(PointType.RT_VERTEX, 220, 240);

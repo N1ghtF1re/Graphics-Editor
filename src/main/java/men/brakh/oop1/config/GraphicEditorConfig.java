@@ -23,9 +23,9 @@ public class GraphicEditorConfig {
     /**
      * Количество пикселей, в радиусе которых нажатие на точку будет засчитываться
      */
-    private double pointAreaSize;
+    private int pointAreaSize;
 
-    public double getPointAreaSize() {
+    public int getPointAreaSize() {
         return pointAreaSize;
     }
 
@@ -40,6 +40,6 @@ public class GraphicEditorConfig {
         }
 
         // Заполняем значения
-        pointAreaSize = Double.valueOf(editorProps.getProperty("point.area.size"));
+        pointAreaSize = Integer.valueOf(editorProps.getProperty("point.area.size"));
     }
 }

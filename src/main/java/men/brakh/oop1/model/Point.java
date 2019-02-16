@@ -7,19 +7,19 @@ public class Point {
     /* КОНФИГ */
     private GraphicEditorConfig config = GraphicEditorConfig.getInstance();
 
-    private double x;
-    private double y;
+    private int x;
+    private int y;
 
-    public Point(double x, double y) {
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public double getX() {
+    public int getX() {
         return x;
     }
 
-    public double getY() {
+    public int getY() {
         return y;
     }
 
@@ -38,7 +38,7 @@ public class Point {
      * @param x Х, с которым необходимо сравнить
      * @return true if this.x ~ x
      */
-    public boolean xEquals(double x) {
+    public boolean xEquals(int x) {
         return Math.abs(this.x - x) <= config.getPointAreaSize();
     }
 
@@ -47,7 +47,7 @@ public class Point {
      * @param y Y, с которым необходимо сравнить
      * @return true if this.y ~ y
      */
-    public boolean yEquals(double y) {
+    public boolean yEquals(int y) {
         return Math.abs(this.y - y) <= config.getPointAreaSize();
     }
 
@@ -57,7 +57,7 @@ public class Point {
      * @param y2 верхняя граница диапазона
      * @return true if y1 < y < y2
      */
-    public boolean yInRange(double y1, double y2) {
+    public boolean yInRange(int y1, int y2) {
         return (y > y1 - config.getPointAreaSize()) && (y < y2 + config.getPointAreaSize());
     }
 
@@ -67,7 +67,7 @@ public class Point {
      * @param x2 верхняя граница диапазона
      * @return true if x1 < x < x2
      */
-    public boolean xInRange(double x1, double x2) {
+    public boolean xInRange(int x1, int x2) {
         return (x > x1 - config.getPointAreaSize()) && (x < x2 + config.getPointAreaSize());
     }
 
