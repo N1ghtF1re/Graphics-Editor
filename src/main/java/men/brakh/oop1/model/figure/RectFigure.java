@@ -138,6 +138,7 @@ public abstract class RectFigure implements Figure {
             default:
                 throw new UnsupportedOperationException();
         }
+        normalzie(); // Выполняем нормализацию координат после перемещения
     }
 
     /**
@@ -150,6 +151,30 @@ public abstract class RectFigure implements Figure {
         right += deltaX;
         bottom += deltaY;
         top += deltaY;
+    }
+
+    /**
+     * Нормализация координат (Левая координата должна быть левее правой и т.д.)
+     * @return true если нормализация была применена
+     */
+    private boolean normalzie() {
+        boolean isNormalized = false;
+
+        if(bottom > top) {
+            double tmp = top;
+            top = bottom;
+            bottom = tmp;
+            isNormalized = true;
+        }
+
+        if(left > right) {
+            double tmp = left;
+            left = right;
+            right = tmp;
+            isNormalized = true;
+        }
+
+        return isNormalized;
     }
 
     public abstract void select();
