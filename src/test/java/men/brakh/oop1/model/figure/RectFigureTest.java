@@ -72,7 +72,7 @@ public class RectFigureTest {
 
         RectFigureImpl figure = new RectFigureImpl(new Point(10, 120));
         figure.resize(PointType.RT_VERTEX, 220, 240);
-        
+
         assertEquals(figure.checkPoint(new Point(10 + delta + 10, 120 + delta + 20)), PointType.POINT_INSIZE);
         assertEquals(figure.checkPoint(new Point(10 - delta - 10, 120 - delta - 20)), PointType.UNKNOWN_POINT);
         assertEquals(figure.checkPoint(new Point(10 - delta + 1, 120 - delta - 20)), PointType.UNKNOWN_POINT);
