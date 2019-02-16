@@ -30,8 +30,7 @@ public class GraphicEditorConfig {
     }
 
     private GraphicEditorConfig() {
-        String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        String appConfigPath = rootPath + "editor.properties";
+        String appConfigPath = "src/main/resources/editor.properties";
 
         Properties editorProps = new Properties();
         try {
