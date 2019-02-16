@@ -1,5 +1,6 @@
 package men.brakh.oop1.model.figure;
 
+import men.brakh.oop1.config.GraphicEditorConfig;
 import men.brakh.oop1.model.Point;
 import men.brakh.oop1.model.PointType;
 import men.brakh.oop1.model.canvas.Canvas;
@@ -8,14 +9,15 @@ import men.brakh.oop1.model.canvas.Canvas;
  * Фигура, которую можно вписать в прямоугольник (По факту, на данный момени, все кроме линии)
  */
 public abstract class RectFigure implements Figure {
+    GraphicEditorConfig config = GraphicEditorConfig.getInstance();
 
     protected Canvas canvas;
 
-    private double x1; // Левая нижняя
-    private double y1; // Точка
+    private double left; // Левая
+    private double bottom; // нижняя точка
 
-    private double x2; // Правая верхняя
-    private double y2; // Точка
+    private double right; // Правая
+    private double top; // верхняя точка
 
 
     /**
@@ -25,10 +27,10 @@ public abstract class RectFigure implements Figure {
      */
     public RectFigure(Canvas canvas, Point startPoint) {
         this.canvas = canvas;
-        this.x1 = startPoint.getX();
-        this.y1 = startPoint.getY();
-        this.x2 = startPoint.getX();
-        this.y2 = startPoint.getY();
+        this.left = startPoint.getX();
+        this.bottom = startPoint.getY();
+        this.right = startPoint.getX();
+        this.top = startPoint.getY();
     }
 
     /**
@@ -36,7 +38,7 @@ public abstract class RectFigure implements Figure {
      * @return Координаты левой нижней точки
      */
     protected Point getLeftBottomPoint() {
-        return new Point(x1, y1);
+        return new Point(left, bottom);
     }
 
     /**
@@ -44,11 +46,57 @@ public abstract class RectFigure implements Figure {
      * @return Коордитаты правоый верхней точки
      */
     protected Point getRightTopPoint() {
-        return new Point(x2, y2);
+        return new Point(right, top);
     }
 
+    /**
+     * Возвращает тип точки в пределах данной фигуры
+     * @param point Точка
+     * @return тип точки в пределах фигуры
+     */
     public PointType checkPoint(Point point) {
-        return null;
+        if(!point.yInRange(bottom, top) || !point.xInRange(left, right)) {
+            return PointType.UNKNOWN_POINT; // Точка вне фигуры
+        }
+
+        Point leftTop = new Point(left, top);
+        Point rightTop = new Point(right, top);
+        Point leftBottom = new Point(left, bottom);
+        Point rightBottom = new Point(right, bottom);
+
+        if(point.equals(leftTop)) {
+            return PointType.LT_VERTEX;
+        }
+
+        if(point.equals(rightTop)) {
+            return PointType.RT_VERTEX;
+        }
+
+        if(point.equals(leftBottom)) {
+            return PointType.LB_VERTEX;
+        }
+
+        if(point.equals(rightBottom)) {
+            return PointType.RB_VERTEX;
+        }
+
+        if(point.xEquals(left) && point.yInRange(bottom, top)) {
+            return PointType.LEFT_SIDE;
+        }
+
+        if(point.xEquals(right) && point.yInRange(bottom, top)) {
+            return PointType.RIGHT_SIDE;
+        }
+
+        if(point.yEquals(top) && point.xInRange(left, right)) {
+            return PointType.TOP_SIDE;
+        }
+
+        if(point.yEquals(bottom) && point.xInRange(left, right)) {
+            return PointType.BOTTOM_SIDE;
+        }
+
+        return PointType.POINT_INSIZE; // Остался только один вариант - точка внутри фигуры
     }
 
     /**
@@ -60,32 +108,32 @@ public abstract class RectFigure implements Figure {
     public void resize(PointType pointType, double deltaX, double deltaY) {
         switch (pointType) {
             case LT_VERTEX: // Левый верхний
-                x1 += deltaX;
-                y2 += deltaY;
+                left += deltaX;
+                top += deltaY;
                 break;
             case RT_VERTEX: // Правый верхний
-                x2 += deltaX;
-                y2 += deltaY;
+                right += deltaX;
+                top += deltaY;
                 break;
             case LB_VERTEX: // Левый нижний
-                x1 += deltaX;
-                y1 += deltaY;
+                left += deltaX;
+                bottom += deltaY;
                 break;
             case RB_VERTEX: // Правый нижний
-                x2 += deltaX;
-                y1 += deltaY;
+                right += deltaX;
+                bottom += deltaY;
                 break;
             case LEFT_SIDE:
-                x1 += deltaX;
+                left += deltaX;
                 break;
             case RIGHT_SIDE:
-                x2 += deltaX;
+                right += deltaX;
                 break;
             case TOP_SIDE:
-                y2 += deltaY;
+                top += deltaY;
                 break;
             case BOTTOM_SIDE:
-                y1 += deltaY;
+                bottom += deltaY;
                 break;
             default:
                 throw new UnsupportedOperationException();
@@ -98,10 +146,10 @@ public abstract class RectFigure implements Figure {
      * @param deltaY delta y перемещения
      */
     public void move(double deltaX, double deltaY) {
-        x1 += deltaX;
-        x2 += deltaX;
-        y2 += deltaY;
-        y1 += deltaY;
+        left += deltaX;
+        right += deltaX;
+        bottom += deltaY;
+        top += deltaY;
     }
 
     public abstract void select();

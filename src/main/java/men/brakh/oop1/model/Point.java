@@ -51,5 +51,25 @@ public class Point {
         return Math.abs(this.y - y) <= config.getPointAreaSize();
     }
 
+    /**
+     * Возвращает true если y находятся в диапазоне от y1 до y2
+     * @param y1 нижняя граница диапазона
+     * @param y2 верхняя граница диапазона
+     * @return true if y1 < y < y2
+     */
+    public boolean yInRange(double y1, double y2) {
+        return (y > y1 - config.getPointAreaSize()) && (y < y2 + config.getPointAreaSize());
+    }
+
+    /**
+     * Возвращает true если x находятся в диапазоне от x1 до x2
+     * @param x1 нижняя граница диапазона
+     * @param x2 верхняя граница диапазона
+     * @return true if x1 < x < x2
+     */
+    public boolean xInRange(double x1, double x2) {
+        return (x > x1 - config.getPointAreaSize()) && (x < x2 + config.getPointAreaSize());
+    }
+
 
 }
