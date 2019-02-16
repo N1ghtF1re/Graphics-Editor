@@ -1,6 +1,5 @@
 package men.brakh.oop1.model.figure;
 
-import men.brakh.oop1.config.GraphicEditorConfig;
 import men.brakh.oop1.model.Point;
 import men.brakh.oop1.model.PointType;
 import men.brakh.oop1.model.canvas.Canvas;
@@ -9,8 +8,6 @@ import men.brakh.oop1.model.canvas.Canvas;
  * Фигура, которую можно вписать в прямоугольник (По факту, на данный момени, все кроме линии)
  */
 public abstract class RectFigure implements Figure {
-    GraphicEditorConfig config = GraphicEditorConfig.getInstance();
-
     protected Canvas canvas;
 
     private double left; // Левая
@@ -177,7 +174,13 @@ public abstract class RectFigure implements Figure {
         return isNormalized;
     }
 
+    /**
+     * Выделение фигуры на полотне
+     */
     public abstract void select();
 
+    /**
+     * Отрисовка фигуры на полотне
+     */
     public abstract void draw();
 }
