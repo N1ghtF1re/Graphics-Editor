@@ -7,7 +7,7 @@ import men.brakh.oop1.model.canvas.AbstractCanvas;
 /**
  * Фигура, которую можно вписать в прямоугольник (По факту, на данный момени, все кроме линии)
  */
-public abstract class RectFigure implements Figure {
+public abstract class AbstractRectFigure implements Figure {
     protected AbstractCanvas canvas;
 
     private int left; // Левая
@@ -22,7 +22,7 @@ public abstract class RectFigure implements Figure {
      * @param canvas Объект канваса
      * @param startPoint Начальные координаты
      */
-    public RectFigure(AbstractCanvas canvas, Point startPoint) {
+    public AbstractRectFigure(AbstractCanvas canvas, Point startPoint) {
         this.canvas = canvas;
         this.left = startPoint.getX();
         this.bottom = startPoint.getY();
@@ -98,7 +98,7 @@ public abstract class RectFigure implements Figure {
 
     /**
      * Изменение размера фигуры
-     * @param pointType Тип точку, которую тянем ({@link PointType})
+     * @param pointType Тип точки, которую тянем ({@link PointType})
      * @param deltaX Старый X - Новый X
      * @param deltaY Старый Y - Новый Y
      */
@@ -135,6 +135,7 @@ public abstract class RectFigure implements Figure {
             default:
                 throw new UnsupportedOperationException();
         }
+        System.out.println(String.format("%d %d %d %d", left, top, right, bottom));
         normalzie(); // Выполняем нормализацию координат после перемещения
     }
 
@@ -177,10 +178,32 @@ public abstract class RectFigure implements Figure {
     /**
      * Выделение фигуры на полотне
      */
-    public abstract void select();
+    public void select() {
+
+    }
 
     /**
      * Отрисовка фигуры на полотне
      */
     public abstract void draw();
+
+    /*
+     * СЕТТЕРЫ
+     */
+
+    protected void setLeft(int left) {
+        this.left = left;
+    }
+
+    protected void setBottom(int bottom) {
+        this.bottom = bottom;
+    }
+
+    protected void setRight(int right) {
+        this.right = right;
+    }
+
+    protected void setTop(int top) {
+        this.top = top;
+    }
 }
