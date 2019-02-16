@@ -14,25 +14,22 @@ public class RectFigureTest {
         }
 
         public Point getLeftBottom() {
-            return getLeftBottomPoint();
+            Point lt = getLeftTop();
+            Point rb = getRightBottom();
+            return new Point(lt.getX(), rb.getY());
         }
 
         public Point getRightTop() {
-            return getRightTopPoint();
-        }
+            Point lt = getLeftTop();
+            Point rb = getRightBottom();
+            return new Point(rb.getX(), lt.getY());        }
 
         public Point getLeftTop() {
-            Point lb = getLeftBottom();
-            Point rt = getRightTop();
-
-            return new Point(lb.getX(), rt.getY());
+            return getLeftTopPoint();
         }
 
         public Point getRightBottom() {
-            Point lb = getLeftBottom();
-            Point rt = getRightTop();
-
-            return new Point(rt.getX(), lb.getY());
+            return getRightBottomPoint();
         }
 
 
@@ -45,9 +42,9 @@ public class RectFigureTest {
 
     @Test
     public void resizeTest() {
-        RectFigureImpl figure = new RectFigureImpl(new Point(0,0));
+        RectFigureImpl figure = new RectFigureImpl(new Point(0,24));
 
-        figure.resize(PointType.RT_VERTEX, 15, 12);
+        figure.resize(PointType.RT_VERTEX, 15, -12);
         Point rt = figure.getRightTop();
 
         assertEquals(rt.getX(), 15, 0);
@@ -57,7 +54,7 @@ public class RectFigureTest {
         Point rb = figure.getRightBottom();
 
         assertEquals(rb.getX(), 10, 0);
-        assertEquals(rb.getY(), 5, 0);
+        assertEquals(rb.getY(), 29, 0);
 
         figure.resize(PointType.LEFT_SIDE, 20, 0); // Должна выполниться нормализация
 
@@ -75,16 +72,13 @@ public class RectFigureTest {
 
         RectFigureImpl figure = new RectFigureImpl(new Point(10, 120));
         figure.resize(PointType.RT_VERTEX, 220, 240);
-        //      |------------(220, 240)
-        //      |                 |
-        //  (10, 120)-------------|
-
+        
         assertEquals(figure.checkPoint(new Point(10 + delta + 10, 120 + delta + 20)), PointType.POINT_INSIZE);
         assertEquals(figure.checkPoint(new Point(10 - delta - 10, 120 - delta - 20)), PointType.UNKNOWN_POINT);
         assertEquals(figure.checkPoint(new Point(10 - delta + 1, 120 - delta - 20)), PointType.UNKNOWN_POINT);
         assertEquals(figure.checkPoint(new Point(10 - delta - 1, 120 - delta + 1)), PointType.UNKNOWN_POINT);
 
-        assertEquals(figure.checkPoint(new Point(10 - delta + 1, 121)), PointType.LB_VERTEX);
+        assertEquals(figure.checkPoint(new Point(10 - delta + 1, 121)), PointType.LT_VERTEX);
         assertEquals(figure.checkPoint(new Point(10 - delta + 1, 200)), PointType.LEFT_SIDE);
     }
 
@@ -98,10 +92,10 @@ public class RectFigureTest {
         Point rt = figure.getRightTop();
 
         assertEquals(lb.getX(), 20, 0);
-        assertEquals(lb.getY(), 35, 0);
+        assertEquals(lb.getY(), 75, 0);
 
         assertEquals(rt.getX(), 40, 0);
-        assertEquals(rt.getY(), 75, 0);
+        assertEquals(rt.getY(), 35, 0);
 
     }
 

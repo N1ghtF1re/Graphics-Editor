@@ -34,16 +34,16 @@ public abstract class RectFigure implements Figure {
      * Координаты левой нижней точки
      * @return Координаты левой нижней точки
      */
-    protected Point getLeftBottomPoint() {
-        return new Point(left, bottom);
+    protected Point getLeftTopPoint() {
+        return new Point(left, top);
     }
 
     /**
      * Коордитаты правоый верхней точки
      * @return Коордитаты правоый верхней точки
      */
-    protected Point getRightTopPoint() {
-        return new Point(right, top);
+    protected Point getRightBottomPoint() {
+        return new Point(right, bottom);
     }
 
     /**
@@ -52,7 +52,7 @@ public abstract class RectFigure implements Figure {
      * @return тип точки в пределах фигуры
      */
     public PointType checkPoint(Point point) {
-        if(!point.yInRange(bottom, top) || !point.xInRange(left, right)) {
+        if(!point.yInRange(top, bottom) || !point.xInRange(left, right)) {
             return PointType.UNKNOWN_POINT; // Точка вне фигуры
         }
 
@@ -77,11 +77,11 @@ public abstract class RectFigure implements Figure {
             return PointType.RB_VERTEX;
         }
 
-        if(point.xEquals(left) && point.yInRange(bottom, top)) {
+        if(point.xEquals(left) && point.yInRange(top, bottom)) {
             return PointType.LEFT_SIDE;
         }
 
-        if(point.xEquals(right) && point.yInRange(bottom, top)) {
+        if(point.xEquals(right) && point.yInRange(top, bottom)) {
             return PointType.RIGHT_SIDE;
         }
 
@@ -157,7 +157,7 @@ public abstract class RectFigure implements Figure {
     private boolean normalzie() {
         boolean isNormalized = false;
 
-        if(bottom > top) {
+        if(bottom < top) { // На канвасе ось У сверху вниз
             int tmp = top;
             top = bottom;
             bottom = tmp;
