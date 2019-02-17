@@ -17,6 +17,9 @@ public class Circle extends AbstractSquareFigure {
 
     @Override
     public void draw() {
-        canvas.drawOval(getLeftTopPoint(), getRightBottomPoint());
+        canvas.withColorSaving(getBushColor(), getPenColor(), getPenWidth(), () -> {
+            canvas.drawOval(getLeftTopPoint(), getRightBottomPoint());
+            return null;
+        });
     }
 }

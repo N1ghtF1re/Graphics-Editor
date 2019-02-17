@@ -7,6 +7,7 @@ import men.brakh.oop1.model.figure.Figure;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 
 /**
  * Абстракция поверх различных реализаций канваса (от swing, javafx и тд)
@@ -14,6 +15,34 @@ import java.util.Optional;
 public abstract class AbstractCanvas {
     private List<Figure> figures = new ArrayList<>();
 
+
+    /**
+     * Выполнение метода с сохранением цвета полотна
+     * (Применяется цвет фигуры, после чего возвращается предыдущие цвета полотна)
+     * @param brushColor Цвет кисти
+     * @param penColor Цвет линий
+     * @param penWidth Размер линий
+     * @param func Функция, которую надо выполнить
+     */
+    public void withColorSaving(String brushColor, String penColor, int penWidth, Callable<Void> func) {
+        String brushColorBackup = getBrushColor();
+        String penColorBackup = getPenColor();
+        int penWidthBackup = getBorderSize();
+
+        setBrushColor(brushColor);
+        setPenColor(penColor);
+        setBorderSize(penWidth);
+
+        try {
+            func.call();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        setBrushColor(brushColorBackup);
+        setPenColor(penColorBackup);
+        setBorderSize(penWidthBackup);
+    }
 
     /**
      * Очистка полотна

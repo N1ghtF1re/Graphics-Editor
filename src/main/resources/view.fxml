@@ -17,16 +17,22 @@
    <children>
       <ScrollPane prefHeight="200.0" prefWidth="200.0">
          <content>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane maxHeight="720.0" maxWidth="1080.0" prefHeight="720.0" prefWidth="1080.0" style="-fx-border-color: gray; -fx-background-color: white;">
                <children>
                   <Canvas fx:id="canvasMain" height="720.0" layoutX="67.0" layoutY="58.0" onMouseDragged="#canvasOnMouseDragged" onMousePressed="#canvasOnMousePressed" onMouseReleased="#canvasOnMouseReleased" width="1080.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </content>
       </ScrollPane>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: yellow;" GridPane.columnIndex="1">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
          <children>
             <ListView fx:id="lwFigures" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Pane layoutX="-14.0" layoutY="312.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <ColorPicker fx:id="cpBrush" layoutX="14.0" layoutY="14.0" onAction="#brushColorSelected" prefHeight="73.0" prefWidth="82.0" style="-fx-color-label-visible: false; -fx-color-rect-width: 50px; -fx-color-rect-height: 50px; -fx-background-color: none;" />
+                  <ColorPicker fx:id="cpPen" layoutX="100.0" layoutY="14.0" onAction="#penColorSelected" prefHeight="73.0" prefWidth="82.0" style="-fx-color-label-visible: false; -fx-color-rect-width: 50px; -fx-color-rect-height: 50px; -fx-background-color: none;" />
+               </children>
+            </Pane>
          </children></AnchorPane>
    </children>
 </GridPane>

@@ -17,6 +17,9 @@ public class Square extends AbstractSquareFigure {
 
     @Override
     public void draw() {
-        canvas.drawRectangle(getLeftTopPoint(), getRightBottomPoint());
+        canvas.withColorSaving(getBushColor(), getPenColor(), getPenWidth(), () -> {
+            canvas.drawRectangle(getLeftTopPoint(), getRightBottomPoint());
+            return null;
+        });
     }
 }

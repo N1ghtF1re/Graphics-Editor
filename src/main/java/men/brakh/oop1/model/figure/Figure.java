@@ -14,4 +14,12 @@ public interface Figure {
     void select();
     void draw();
 
+    String getPenColor();
+    String getBushColor();
+    int getPenWidth();
+
+    void setPenColor(String color);
+    void setBrushColor(String color);
+    void setPenWidth(int width);
+
 }

@@ -13,6 +13,10 @@ public abstract class AbstractRectFigure implements Figure {
 
     protected AbstractCanvas canvas;
 
+    private String brushColor;
+    private String penColor;
+    private int penWidth;
+
     private int left; // Левая
     private int bottom; // нижняя точка
 
@@ -31,6 +35,10 @@ public abstract class AbstractRectFigure implements Figure {
         this.bottom = startPoint.getY();
         this.right = startPoint.getX() ;
         this.top = startPoint.getY() - config.getMinFigureHeight();
+
+        this.brushColor = canvas.getBrushColor();
+        this.penColor = canvas.getPenColor();
+        this.penWidth = canvas.getBorderSize();
 
         canvas.addFigure(this);
     }
@@ -189,8 +197,31 @@ public abstract class AbstractRectFigure implements Figure {
      */
     public abstract void draw();
 
+    /* ГЕТТЕРЫ И СЕТТЕРЫ */
 
-    /* СЕТТЕРЫ */
+    public String getPenColor(){
+        return penColor;
+    }
+
+    public String getBushColor() {
+        return brushColor;
+    }
+
+    public int getPenWidth(){
+        return penWidth;
+    }
+
+    public void setPenColor(String color) {
+        penColor = color;
+    }
+
+    public void setBrushColor(String color) {
+        brushColor = color;
+    }
+
+    public void setPenWidth(int width) {
+        penWidth = width;
+    }
 
     protected void setLeft(int left) {
         this.left = left;

@@ -17,6 +17,9 @@ public class Rectangle extends AbstractRectFigure {
 
     @Override
     public void draw() {
-        canvas.drawRectangle(getLeftTopPoint(), getRightBottomPoint());
+        canvas.withColorSaving(getBushColor(), getPenColor(), getPenWidth(), () -> {
+            canvas.drawRectangle(getLeftTopPoint(), getRightBottomPoint());
+            return null;
+        });
     }
 }

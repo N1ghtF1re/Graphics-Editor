@@ -34,11 +34,13 @@ public class JavaFXCanvas extends AbstractCanvas {
     @Override
     public void drawRectangle(Point leftTop, Point rightBottom) {
         gc.fillRect(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());
+        gc.strokeRect(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());
     }
 
     @Override
     public void drawOval(Point leftTop, Point rightBottom) {
         gc.fillOval(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());
+        gc.strokeOval(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());
     }
 
     @Override
@@ -51,8 +53,12 @@ public class JavaFXCanvas extends AbstractCanvas {
         int topY = leftTop.getY();
         int bottomY = rightBottom.getY();
 
-        gc.fillPolygon(new double[]{leftX, topAndBottomX, rightX, topAndBottomX},
-                new double[]{leftAndRightY, topY, leftAndRightY, bottomY}, 4);
+
+        double xs[] = new double[]{leftX, topAndBottomX, rightX, topAndBottomX};
+        double ys[] = new double[]{leftAndRightY, topY, leftAndRightY, bottomY};
+
+        gc.fillPolygon(xs, ys, xs.length);
+        gc.strokePolygon(xs, ys, xs.length);
     }
 
     @Override

@@ -17,6 +17,9 @@ public class Rhombus extends AbstractSquareFigure {
 
     @Override
     public void draw() {
-        canvas.drawRhombus(getLeftTopPoint(), getRightBottomPoint());
+        canvas.withColorSaving(getBushColor(), getPenColor(), getPenWidth(), () -> {
+            canvas.drawRhombus(getLeftTopPoint(), getRightBottomPoint());
+            return null;
+        });
     }
 }
