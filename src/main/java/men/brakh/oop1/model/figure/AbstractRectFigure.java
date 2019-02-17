@@ -104,37 +104,37 @@ public abstract class AbstractRectFigure implements Figure {
     /**
      * Изменение размера фигуры
      * @param pointType Тип точки, которую тянем ({@link PointType})
-     * @param deltaPoint Текущая точка - Пердыдущая точка
+     * @param toPoint Точка, в которую переместили вершину
      */
-    public void resize(PointType pointType, Point deltaPoint) {
+    public void resize(PointType pointType, Point toPoint) {
         switch (pointType) {
             case LT_VERTEX: // Левый верхний
-                left += deltaPoint.getX();
-                top += deltaPoint.getY();
+                left = toPoint.getX();
+                top = toPoint.getY();
                 break;
             case RT_VERTEX: // Правый верхний
-                right += deltaPoint.getX();
-                top += deltaPoint.getY();
+                right = toPoint.getX();
+                top = toPoint.getY();
                 break;
             case LB_VERTEX: // Левый нижний
-                left += deltaPoint.getX();
-                bottom += deltaPoint.getY();
+                left = toPoint.getX();
+                bottom = toPoint.getY();
                 break;
             case RB_VERTEX: // Правый нижний
-                right += deltaPoint.getX();
-                bottom += deltaPoint.getY();
+                right = toPoint.getX();
+                bottom = toPoint.getY();
                 break;
             case LEFT_SIDE:
-                left += deltaPoint.getX();
+                left = toPoint.getX();
                 break;
             case RIGHT_SIDE:
-                right += deltaPoint.getX();
+                right = toPoint.getX();
                 break;
             case TOP_SIDE:
-                top += deltaPoint.getY();
+                top = toPoint.getY();
                 break;
             case BOTTOM_SIDE:
-                bottom += deltaPoint.getY();
+                bottom = toPoint.getY();
                 break;
             default:
                 throw new UnsupportedOperationException();
@@ -160,17 +160,17 @@ public abstract class AbstractRectFigure implements Figure {
     private boolean normalzie() {
         boolean isNormalized = false;
 
-        if(bottom < top) { // На канвасе ось У сверху вниз
+        if(bottom + config.getPointAreaSize() < top) { // На канвасе ось У сверху вниз
             int tmp = top;
-            top = bottom;
-            bottom = tmp + config.getMinFigureHeight();
+            top = bottom - config.getMinFigureHeight();
+            bottom = tmp;
             isNormalized = true;
         }
 
-        if(left > right) {
+        if(left > right + config.getPointAreaSize()) {
             int tmp = left;
             left = right;
-            right = tmp + config.getMinFigureWidth();
+            right = tmp;
             isNormalized = true;
         }
 
@@ -189,4 +189,22 @@ public abstract class AbstractRectFigure implements Figure {
      */
     public abstract void draw();
 
+
+    /* СЕТТЕРЫ */
+
+    protected void setLeft(int left) {
+        this.left = left;
+    }
+
+    protected void setBottom(int bottom) {
+        this.bottom = bottom;
+    }
+
+    protected void setRight(int right) {
+        this.right = right;
+    }
+
+    protected void setTop(int top) {
+        this.top = top;
+    }
 }

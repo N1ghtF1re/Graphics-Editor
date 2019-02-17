@@ -70,7 +70,7 @@ public class Controller {
                         currPointType = pointType;
                         break;
                 }
-                currentFigure.resize(currPointType, clickedPoint.delta(prevPoint));
+                currentFigure.resize(currPointType, clickedPoint);
                 prevPoint = clickedPoint;
                 break;
         }
