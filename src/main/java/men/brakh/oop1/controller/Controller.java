@@ -1,8 +1,13 @@
 package men.brakh.oop1.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import men.brakh.oop1.model.figure.FigureFactory;
+import men.brakh.oop1.view.controls.FiguresListCell;
 import men.brakh.oop1.model.Mode;
 import men.brakh.oop1.model.Point;
 import men.brakh.oop1.model.PointType;
@@ -11,12 +16,16 @@ import men.brakh.oop1.model.canvas.impl.JavaFXCanvas;
 import men.brakh.oop1.model.figure.Figure;
 import men.brakh.oop1.model.figure.impl.Rectangle;
 
+import java.util.List;
 import java.util.Optional;
 
 public class Controller {
 
     @FXML
     private Canvas canvasMain;
+
+    @FXML
+    private ListView<String> lwFigures;
 
     private AbstractCanvas canvas;
 
@@ -33,6 +42,15 @@ public class Controller {
     void initialize() {
         canvas = new JavaFXCanvas(canvasMain);
         mode = Mode.MODE_VIEW;
+
+
+        List<String> figuresNames = FigureFactory.getFiguresNames();
+
+        ObservableList<String> items = FXCollections.observableArrayList(figuresNames);
+        lwFigures.setItems(items);
+
+
+        lwFigures.setCellFactory(param -> new FiguresListCell());
     }
 
 
@@ -69,7 +87,6 @@ public class Controller {
 
         if(!figure.isPresent()) { // Фигуры в этой точке еще не существует => добавляем
             currentFigure = new Rectangle(canvas, clickedPoint);
-            canvas.addFigure(currentFigure); // Закидываем фигуру на канвас
             prevPoint = clickedPoint; // Обновляем предыдущие координаты
             currPointType = currentFigure.checkPoint(clickedPoint); // Тип точки при создании
             mode = Mode.MODE_CREATE; // Меняем режим на создание фигуры

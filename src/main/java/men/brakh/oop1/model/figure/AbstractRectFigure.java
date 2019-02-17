@@ -31,6 +31,8 @@ public abstract class AbstractRectFigure implements Figure {
         this.bottom = startPoint.getY();
         this.right = startPoint.getX() ;
         this.top = startPoint.getY() - config.getMinFigureHeight();
+
+        canvas.addFigure(this);
     }
 
     /**

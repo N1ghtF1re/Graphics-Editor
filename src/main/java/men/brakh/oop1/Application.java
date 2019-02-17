@@ -21,8 +21,6 @@ public class Application extends javafx.application.Application {
         int height = config.getMinFrameHeight();
         int width = config.getMinFrameWidth();
 
-        System.out.println(width);
-
         primaryStage.setScene(new Scene(root, width, height));
         primaryStage.setMinHeight(height);
         primaryStage.setMinWidth(width);

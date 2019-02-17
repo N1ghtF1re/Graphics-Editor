@@ -39,7 +39,6 @@ public abstract class AbstractCanvas {
         figures.add(figure);
         figure.draw();
 
-        System.out.println(figure.getClass());
         return figure;
     }
 

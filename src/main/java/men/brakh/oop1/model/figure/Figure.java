@@ -13,4 +13,5 @@ public interface Figure {
     void move(Point deltaPoint);
     void select();
     void draw();
+
 }
