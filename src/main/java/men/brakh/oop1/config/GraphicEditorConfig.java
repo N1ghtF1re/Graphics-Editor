@@ -26,7 +26,15 @@ public class GraphicEditorConfig {
      */
     private int minFrameWidth;
 
+    /**
+     * Минимальная ширина фигуры
+     */
+    private int minFigureWidth;
 
+    /**
+     * Минимальная высота фигуры
+     */
+    private int minFigureHeight;
 
 
     /*
@@ -43,6 +51,14 @@ public class GraphicEditorConfig {
 
     public int getMinFrameWidth() {
         return minFrameWidth;
+    }
+
+    public int getMinFigureWidth() {
+        return minFigureWidth;
+    }
+
+    public int getMinFigureHeight() {
+        return minFigureHeight;
     }
 
     /**
@@ -69,6 +85,7 @@ public class GraphicEditorConfig {
         pointAreaSize = Integer.valueOf(editorProps.getProperty("point.area.size"));
         minFrameHeight = Integer.valueOf(editorProps.getProperty("frame.minHeight"));
         minFrameWidth = Integer.valueOf(editorProps.getProperty("frame.minWidth"));
-
+        minFigureWidth = Integer.valueOf(editorProps.getProperty("figure.minWidth"));
+        minFigureWidth = Integer.valueOf(editorProps.getProperty("figure.minHeight"));
     }
 }

@@ -3,9 +3,15 @@ package men.brakh.oop1.controller;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
+import men.brakh.oop1.model.Mode;
 import men.brakh.oop1.model.Point;
+import men.brakh.oop1.model.PointType;
 import men.brakh.oop1.model.canvas.AbstractCanvas;
 import men.brakh.oop1.model.canvas.impl.JavaFXCanvas;
+import men.brakh.oop1.model.figure.Figure;
+import men.brakh.oop1.model.figure.impl.Rectangle;
+
+import java.util.Optional;
 
 public class Controller {
 
@@ -14,28 +20,74 @@ public class Controller {
 
     private AbstractCanvas canvas;
 
+    private Mode mode;
+
+    private Point prevPoint;
+
+    private Figure currentFigure;
+
+    private PointType prevPointType;
+
+
+    @FXML // This method is called by the FXMLLoader when initialization is complete
+    void initialize() {
+        canvas = new JavaFXCanvas(canvasMain);
+        mode = Mode.MODE_VIEW;
+        /*
+        Figure figure = new Rectangle(canvas, new Point(0,0));
+        figure.resize(PointType.RB_VERTEX, 30, 40);
+        canvas.addFigure(figure);
+        */
+    }
+
 
     @FXML
-    void canvasOnMousePressed(MouseEvent event) {
-        canvas = new JavaFXCanvas(canvasMain);
+    void canvasOnMouseDragged(MouseEvent event) {
+        Point clickedPoint = new Point(event.getX(), event.getY());
+        switch (mode) {
+            case MODE_VIEW:
+                break;
+            case MODE_RESIZE:
+                PointType pointType = currentFigure.checkPoint(prevPoint);
+                switch (pointType) {
+                    case LT_VERTEX:
+                    case RT_VERTEX:
+                    case LB_VERTEX:
+                    case RB_VERTEX:
+                        prevPointType = pointType;
+                        break;
+                }
+                System.out.println(prevPointType);
+                currentFigure.resize(prevPointType,clickedPoint.delta(prevPoint));
+                prevPoint = clickedPoint;
+
+                break;
+
+
+        }
+
+        canvas.redraw();
         System.out.println("KEK");
-        System.out.println(canvasMain.getWidth());
-
-        /*
-        GraphicsContext gc = canvasMain.getGraphicsContext2D();
-        gc.setFill(Color.GREEN);
-        gc.setStroke(Color.BLUE);
-        gc.setLineWidth(5);
-        gc.strokeLine(40, 10, 10, 40);
-        gc.fillOval(10, 60, 30, 30);
-        */
-        canvas.clear();
-        canvas.drawLine(new Point(20, 20), new Point(40, 40));
-        canvas.drawRectangle(new Point(20, 20), new Point(40, 40));
-
-        canvas.drawOval(new Point(120, 120), new Point(140, 140));
-
-
     }
+
+    @FXML // Только нажата
+    void canvasOnMousePressed(MouseEvent event) {
+        Point clickedPoint = new Point(event.getX(), event.getY());
+        Optional<Figure> figure = canvas.getFigureAtPoint(clickedPoint);
+        if(!figure.isPresent()) {
+            currentFigure = new Rectangle(canvas, clickedPoint);
+            canvas.addFigure(currentFigure);
+            prevPoint = clickedPoint;
+            prevPointType = currentFigure.checkPoint(clickedPoint);
+            mode = Mode.MODE_RESIZE;
+        }
+    }
+
+    @FXML // Уже отпущена
+    void canvasOnMouseReleased(MouseEvent event) {
+        System.out.println("RELEASED");
+        mode = Mode.MODE_VIEW;
+    }
+
 
 }

@@ -21,16 +21,15 @@ public abstract class AbstractSquareFigure extends AbstractRectFigure{
     /**
      * Изменение размеров квадратной фигуры
      * @param pointType Тип точки, которую тянем ({@link PointType})
-     * @param deltaX Старый X - Новый X
-     * @param deltaY Старый Y - Новый Y
+     * @param delta Новая координата - старая координата
      */
     @Override
-    public void resize(PointType pointType, int deltaX, int deltaY) {
-        int xSign = deltaX < 0 ? -1 : 1;
-        int ySign = deltaY < 0 ? -1 : 1;
+    public void resize(PointType pointType, Point delta) {
+        int xSign = delta.getX() < 0 ? -1 : 1;
+        int ySign = delta.getY() < 0 ? -1 : 1;
 
-        int delta = Math.max(Math.abs(deltaX), Math.abs(deltaY));
-        super.resize(pointType, xSign * delta, ySign * delta);
+        int newDelta = Math.max(Math.abs(delta.getX()), Math.abs(delta.getY()));
+        super.resize(pointType, new Point(xSign * newDelta, ySign * newDelta));
     }
 
     @Override

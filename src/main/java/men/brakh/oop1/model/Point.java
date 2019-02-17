@@ -15,12 +15,26 @@ public class Point {
         this.y = y;
     }
 
+    public Point(double x, double y) {
+        this.x = (int) x;
+        this.y = (int) y;
+    }
+
     public int getX() {
         return x;
     }
 
     public int getY() {
         return y;
+    }
+
+    /**
+     * Вычисляет разницу между текущей точкой и переданной
+     * @param point Вторая точка
+     * @return CurrPoint - Point
+     */
+    public Point delta(Point point) {
+        return new Point(x - point.x, y - point.y);
     }
 
     @Override

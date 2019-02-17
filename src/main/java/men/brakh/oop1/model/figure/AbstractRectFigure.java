@@ -1,5 +1,6 @@
 package men.brakh.oop1.model.figure;
 
+import men.brakh.oop1.config.GraphicEditorConfig;
 import men.brakh.oop1.model.Point;
 import men.brakh.oop1.model.PointType;
 import men.brakh.oop1.model.canvas.AbstractCanvas;
@@ -8,6 +9,8 @@ import men.brakh.oop1.model.canvas.AbstractCanvas;
  * Фигура, которую можно вписать в прямоугольник (По факту, на данный момени, все кроме линии)
  */
 public abstract class AbstractRectFigure implements Figure {
+    GraphicEditorConfig config = GraphicEditorConfig.getInstance();
+
     protected AbstractCanvas canvas;
 
     private int left; // Левая
@@ -24,10 +27,10 @@ public abstract class AbstractRectFigure implements Figure {
      */
     public AbstractRectFigure(AbstractCanvas canvas, Point startPoint) {
         this.canvas = canvas;
-        this.left = startPoint.getX();
+        this.left = startPoint.getX() - config.getMinFigureWidth();
         this.bottom = startPoint.getY();
-        this.right = startPoint.getX();
-        this.top = startPoint.getY();
+        this.right = startPoint.getX() ;
+        this.top = startPoint.getY() - config.getMinFigureHeight();
     }
 
     /**
@@ -99,44 +102,44 @@ public abstract class AbstractRectFigure implements Figure {
     /**
      * Изменение размера фигуры
      * @param pointType Тип точки, которую тянем ({@link PointType})
-     * @param deltaX Старый X - Новый X
-     * @param deltaY Старый Y - Новый Y
+     * @param deltaPoint Текущая точка - Пердыдущая точка
      */
-    public void resize(PointType pointType, int deltaX, int deltaY) {
+    public void resize(PointType pointType, Point deltaPoint) {
         switch (pointType) {
             case LT_VERTEX: // Левый верхний
-                left += deltaX;
-                top += deltaY;
+                left += deltaPoint.getX();
+                top += deltaPoint.getY();
                 break;
             case RT_VERTEX: // Правый верхний
-                right += deltaX;
-                top += deltaY;
+                right += deltaPoint.getX();
+                top += deltaPoint.getY();
                 break;
             case LB_VERTEX: // Левый нижний
-                left += deltaX;
-                bottom += deltaY;
+                left += deltaPoint.getX();
+                bottom += deltaPoint.getY();
                 break;
             case RB_VERTEX: // Правый нижний
-                right += deltaX;
-                bottom += deltaY;
+                right += deltaPoint.getX();
+                bottom += deltaPoint.getY();
                 break;
             case LEFT_SIDE:
-                left += deltaX;
+                left += deltaPoint.getX();
                 break;
             case RIGHT_SIDE:
-                right += deltaX;
+                right += deltaPoint.getX();
                 break;
             case TOP_SIDE:
-                top += deltaY;
+                top += deltaPoint.getY();
                 break;
             case BOTTOM_SIDE:
-                bottom += deltaY;
+                bottom += deltaPoint.getY();
                 break;
             default:
                 throw new UnsupportedOperationException();
         }
         System.out.println(String.format("%d %d %d %d", left, top, right, bottom));
         normalzie(); // Выполняем нормализацию координат после перемещения
+        System.out.println(String.format("%d %d %d %d", left, top, right, bottom));
     }
 
     /**
@@ -161,15 +164,17 @@ public abstract class AbstractRectFigure implements Figure {
         if(bottom < top) { // На канвасе ось У сверху вниз
             int tmp = top;
             top = bottom;
-            bottom = tmp;
+            bottom = tmp + config.getMinFigureHeight();
             isNormalized = true;
+            System.out.println("NORM");
         }
 
         if(left > right) {
             int tmp = left;
             left = right;
-            right = tmp;
+            right = tmp + config.getMinFigureWidth();
             isNormalized = true;
+            System.out.println("NORM");
         }
 
         return isNormalized;
@@ -187,23 +192,4 @@ public abstract class AbstractRectFigure implements Figure {
      */
     public abstract void draw();
 
-    /*
-     * СЕТТЕРЫ
-     */
-
-    protected void setLeft(int left) {
-        this.left = left;
-    }
-
-    protected void setBottom(int bottom) {
-        this.bottom = bottom;
-    }
-
-    protected void setRight(int right) {
-        this.right = right;
-    }
-
-    protected void setTop(int top) {
-        this.top = top;
-    }
 }

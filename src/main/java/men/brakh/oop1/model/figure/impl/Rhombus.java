@@ -6,7 +6,7 @@ import men.brakh.oop1.model.figure.AbstractSquareFigure;
 
 public class Rhombus extends AbstractSquareFigure {
     /**
-     * Конструктор фигуры, которую можно вписать в квадрат
+     * Конструктор ромба
      *
      * @param canvas     Объект канваса
      * @param startPoint Начальные координаты

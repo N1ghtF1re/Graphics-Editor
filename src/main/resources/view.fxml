@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.canvas.Canvas?>
@@ -14,11 +15,15 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
-         <children>
-            <Canvas fx:id="canvasMain" height="720.0" layoutX="67.0" layoutY="58.0" onMousePressed="#canvasOnMousePressed" width="1080.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-         </children>
-      </AnchorPane>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0">
+         <content>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Canvas fx:id="canvasMain" height="720.0" layoutX="67.0" layoutY="58.0" onMouseDragged="#canvasOnMouseDragged" onMousePressed="#canvasOnMousePressed" onMouseReleased="#canvasOnMouseReleased" width="1080.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: yellow;" GridPane.columnIndex="1" />
    </children>
 </GridPane>
