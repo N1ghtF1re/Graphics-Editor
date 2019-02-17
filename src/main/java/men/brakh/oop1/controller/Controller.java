@@ -20,24 +20,19 @@ public class Controller {
 
     private AbstractCanvas canvas;
 
-    private Mode mode;
+    private Mode mode; // Текущий режим работы
 
-    private Point prevPoint;
+    private Point prevPoint; // Предыдущая обрабатываемая точка
 
-    private Figure currentFigure;
+    private Figure currentFigure; // Текущая фигура
 
-    private PointType prevPointType;
+    private PointType currPointType; // Текущий тип точки
 
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         canvas = new JavaFXCanvas(canvasMain);
         mode = Mode.MODE_VIEW;
-        /*
-        Figure figure = new Rectangle(canvas, new Point(0,0));
-        figure.resize(PointType.RB_VERTEX, 30, 40);
-        canvas.addFigure(figure);
-        */
     }
 
 
@@ -47,46 +42,43 @@ public class Controller {
         switch (mode) {
             case MODE_VIEW:
                 break;
-            case MODE_RESIZE:
+            case MODE_CREATE:
                 PointType pointType = currentFigure.checkPoint(prevPoint);
+
+                // Если при создании тип точки изменился => обновляем, иначе - оставляем предыдущий
                 switch (pointType) {
                     case LT_VERTEX:
                     case RT_VERTEX:
                     case LB_VERTEX:
                     case RB_VERTEX:
-                        prevPointType = pointType;
+                        currPointType = pointType;
                         break;
                 }
-                System.out.println(prevPointType);
-                currentFigure.resize(prevPointType,clickedPoint.delta(prevPoint));
+                currentFigure.resize(currPointType, clickedPoint.delta(prevPoint));
                 prevPoint = clickedPoint;
-
                 break;
-
-
         }
 
         canvas.redraw();
-        System.out.println("KEK");
     }
 
     @FXML // Только нажата
     void canvasOnMousePressed(MouseEvent event) {
         Point clickedPoint = new Point(event.getX(), event.getY());
         Optional<Figure> figure = canvas.getFigureAtPoint(clickedPoint);
-        if(!figure.isPresent()) {
+
+        if(!figure.isPresent()) { // Фигуры в этой точке еще не существует => добавляем
             currentFigure = new Rectangle(canvas, clickedPoint);
-            canvas.addFigure(currentFigure);
-            prevPoint = clickedPoint;
-            prevPointType = currentFigure.checkPoint(clickedPoint);
-            mode = Mode.MODE_RESIZE;
+            canvas.addFigure(currentFigure); // Закидываем фигуру на канвас
+            prevPoint = clickedPoint; // Обновляем предыдущие координаты
+            currPointType = currentFigure.checkPoint(clickedPoint); // Тип точки при создании
+            mode = Mode.MODE_CREATE; // Меняем режим на создание фигуры
         }
     }
 
     @FXML // Уже отпущена
     void canvasOnMouseReleased(MouseEvent event) {
-        System.out.println("RELEASED");
-        mode = Mode.MODE_VIEW;
+        mode = Mode.MODE_VIEW; // Когда отпускаем кнопку - восстанавливаем режим просмотра
     }
 
 
