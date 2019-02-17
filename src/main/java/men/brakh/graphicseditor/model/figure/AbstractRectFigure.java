@@ -117,7 +117,7 @@ public abstract class AbstractRectFigure implements Figure {
      * @param toPoint Точка, в которую переместили вершину
      */
     @Override
-    public void resize(PointType pointType, Point toPoint) {
+    public void resize(PointType pointType, Point fromPoint, Point toPoint) {
         switch (pointType) {
             case LT_VERTEX: // Левый верхний
                 left = toPoint.getX();

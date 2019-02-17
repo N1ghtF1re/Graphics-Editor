@@ -86,6 +86,6 @@ public class GraphicEditorConfig {
         minFrameHeight = Integer.valueOf(editorProps.getProperty("frame.minHeight"));
         minFrameWidth = Integer.valueOf(editorProps.getProperty("frame.minWidth"));
         minFigureWidth = Integer.valueOf(editorProps.getProperty("figure.minWidth"));
-        minFigureWidth = Integer.valueOf(editorProps.getProperty("figure.minHeight"));
+        minFigureHeight = Integer.valueOf(editorProps.getProperty("figure.minHeight"));
     }
 }

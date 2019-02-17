@@ -9,7 +9,7 @@ import men.brakh.graphicseditor.model.PointType;
 public interface Figure {
 
     PointType checkPoint(Point point);
-    void resize(PointType pointType, Point toPoint);
+    void resize(PointType pointType, Point fromPoint, Point toPoint);
     void move(Point deltaPoint);
     void select();
     void draw();

@@ -23,5 +23,5 @@ public enum PointType {
     /*
       Для линий:
      */
-    // TODO Сделать
+    POINT_NODE,
 }

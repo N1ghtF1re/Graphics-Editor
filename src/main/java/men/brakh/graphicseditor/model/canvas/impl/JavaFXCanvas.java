@@ -68,7 +68,8 @@ public class JavaFXCanvas extends AbstractCanvas {
 
     @Override
     public void setBrushColor(String brushColor) {
-        gc.setFill(Color.web(brushColor));
+        if(brushColor != null)
+            gc.setFill(Color.web(brushColor));
     }
 
     @Override

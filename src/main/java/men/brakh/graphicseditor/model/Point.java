@@ -28,6 +28,20 @@ public class Point {
         return y;
     }
 
+    public Point coppy() {
+        return new Point(x, y);
+    }
+
+    public void assign(Point point) {
+        this.x = point.getX();
+        this.y = point.getY();
+    }
+
+    public void add(Point point) {
+        this.x += point.getX();
+        this.y += point.getY();
+    }
+
     /**
      * Вычисляет разницу между текущей точкой и переданной
      * @param point Вторая точка

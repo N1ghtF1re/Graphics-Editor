@@ -67,8 +67,8 @@ public abstract class AbstractSquareFigure extends AbstractRectFigure{
      * @param toPoint Точка, в которую переместили координату
      */
     @Override
-    public void resize(PointType pointType, Point toPoint) {
-        super.resize(pointType, toPoint);
+    public void resize(PointType pointType, Point fromPoint, Point toPoint) {
+        super.resize(pointType, fromPoint,  toPoint);
         equalizeSides(pointType);
     }
 
