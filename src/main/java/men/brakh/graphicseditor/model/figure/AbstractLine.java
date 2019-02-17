@@ -29,6 +29,10 @@ public abstract class AbstractLine implements Figure {
         canvas.addFigure(this);
     }
 
+    /**
+     * Добавление вершины линии
+     * @param point Координата вершины
+     */
     public void addPoint(Point point) {
         points.add(point);
     }
@@ -84,6 +88,12 @@ public abstract class AbstractLine implements Figure {
         return Optional.empty();
     }
 
+    /**
+     * Перемещние точки линии
+     * @param pointType Не используется. Используется в {@link AbstractRectFigure}
+     * @param fromPoint Координата точки линии
+     * @param toPoint Координата, куда надо переместить эту точку
+     */
     @Override
     public void resize(PointType pointType, Point fromPoint, Point toPoint) {
         getPoint(fromPoint).ifPresent(
@@ -93,6 +103,9 @@ public abstract class AbstractLine implements Figure {
         );
     }
 
+    /**
+     * Перемещение линии
+     */
     @Override
     public void move(Point deltaPoint) {
         for(Point point : points) {
@@ -105,6 +118,9 @@ public abstract class AbstractLine implements Figure {
 
     }
 
+    /**
+     * Ортрисовка
+     */
     @Override
     public abstract void draw();
 

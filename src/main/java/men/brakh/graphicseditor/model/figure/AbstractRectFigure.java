@@ -114,6 +114,7 @@ public abstract class AbstractRectFigure implements Figure {
     /**
      * Изменение размера фигуры
      * @param pointType Тип точки, которую тянем ({@link PointType})
+     * @param fromPoint Не используется. Используется только в {@link AbstractLine}
      * @param toPoint Точка, в которую переместили вершину
      */
     @Override
