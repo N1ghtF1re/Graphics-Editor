@@ -55,6 +55,7 @@ public abstract class AbstractRectFigure implements Figure {
      * Коордитаты правоый верхней точки
      * @return Коордитаты правоый верхней точки
      */
+
     protected Point getRightBottomPoint() {
         return new Point(right, bottom);
     }
@@ -64,6 +65,7 @@ public abstract class AbstractRectFigure implements Figure {
      * @param point Точка
      * @return тип точки в пределах фигуры
      */
+    @Override
     public PointType checkPoint(Point point) {
         if(!point.yInRange(top, bottom) || !point.xInRange(left, right)) {
             return PointType.UNKNOWN_POINT; // Точка вне фигуры
@@ -114,6 +116,7 @@ public abstract class AbstractRectFigure implements Figure {
      * @param pointType Тип точки, которую тянем ({@link PointType})
      * @param toPoint Точка, в которую переместили вершину
      */
+    @Override
     public void resize(PointType pointType, Point toPoint) {
         switch (pointType) {
             case LT_VERTEX: // Левый верхний
@@ -154,6 +157,7 @@ public abstract class AbstractRectFigure implements Figure {
      * Перемещение фигуры
      * @param deltaPoint delta перемещения
      */
+    @Override
     public void move(Point deltaPoint) {
         left += deltaPoint.getX();
         right += deltaPoint.getX();
@@ -188,6 +192,7 @@ public abstract class AbstractRectFigure implements Figure {
     /**
      * Выделение фигуры на полотне
      */
+    @Override
     public void select() {
 
     }
@@ -195,30 +200,37 @@ public abstract class AbstractRectFigure implements Figure {
     /**
      * Отрисовка фигуры на полотне
      */
+    @Override
     public abstract void draw();
 
     /* ГЕТТЕРЫ И СЕТТЕРЫ */
 
+    @Override
     public String getPenColor(){
         return penColor;
     }
 
+    @Override
     public String getBushColor() {
         return brushColor;
     }
 
+    @Override
     public int getPenWidth(){
         return penWidth;
     }
 
+    @Override
     public void setPenColor(String color) {
         penColor = color;
     }
 
+    @Override
     public void setBrushColor(String color) {
         brushColor = color;
     }
 
+    @Override
     public void setPenWidth(int width) {
         penWidth = width;
     }
