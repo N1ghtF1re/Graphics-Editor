@@ -10,7 +10,7 @@ public interface Figure {
 
     PointType checkPoint(Point point);
     void resize(PointType pointType, Point deltaPoint);
-    void move(int deltaX, int deltaY);
+    void move(Point deltaPoint);
     void select();
     void draw();
 }

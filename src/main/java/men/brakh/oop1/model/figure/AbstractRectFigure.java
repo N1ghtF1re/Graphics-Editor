@@ -9,7 +9,7 @@ import men.brakh.oop1.model.canvas.AbstractCanvas;
  * Фигура, которую можно вписать в прямоугольник (По факту, на данный момени, все кроме линии)
  */
 public abstract class AbstractRectFigure implements Figure {
-    GraphicEditorConfig config = GraphicEditorConfig.getInstance();
+    private GraphicEditorConfig config = GraphicEditorConfig.getInstance();
 
     protected AbstractCanvas canvas;
 
@@ -137,21 +137,18 @@ public abstract class AbstractRectFigure implements Figure {
             default:
                 throw new UnsupportedOperationException();
         }
-        System.out.println(String.format("%d %d %d %d", left, top, right, bottom));
         normalzie(); // Выполняем нормализацию координат после перемещения
-        System.out.println(String.format("%d %d %d %d", left, top, right, bottom));
     }
 
     /**
      * Перемещение фигуры
-     * @param deltaX delta x перемещения
-     * @param deltaY delta y перемещения
+     * @param deltaPoint delta перемещения
      */
-    public void move(int deltaX, int deltaY) {
-        left += deltaX;
-        right += deltaX;
-        bottom += deltaY;
-        top += deltaY;
+    public void move(Point deltaPoint) {
+        left += deltaPoint.getX();
+        right += deltaPoint.getX();
+        bottom += deltaPoint.getY();
+        top += deltaPoint.getY();
     }
 
     /**
@@ -166,7 +163,6 @@ public abstract class AbstractRectFigure implements Figure {
             top = bottom;
             bottom = tmp + config.getMinFigureHeight();
             isNormalized = true;
-            System.out.println("NORM");
         }
 
         if(left > right) {
@@ -174,7 +170,6 @@ public abstract class AbstractRectFigure implements Figure {
             left = right;
             right = tmp + config.getMinFigureWidth();
             isNormalized = true;
-            System.out.println("NORM");
         }
 
         return isNormalized;
