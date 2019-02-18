@@ -175,7 +175,7 @@ public abstract class AbstractRectFigure implements Figure {
 
         if(bottom + config.getPointAreaSize() < top) { // На канвасе ось У сверху вниз
             int tmp = top;
-            top = bottom - config.getMinFigureHeight();
+            top = bottom;
             bottom = tmp;
             isNormalized = true;
         }
