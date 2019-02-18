@@ -74,6 +74,11 @@ public class Controller {
         switch (mode) {
             case MODE_VIEW:
                 break;
+            case MODE_RESIZE:
+                break;
+            case MODE_MOVE:
+                currentFigure.move(clickedPoint.delta(prevPoint));
+                break;
             case MODE_CREATE:
                 PointType pointType = currentFigure.checkPoint(prevPoint);
 
@@ -87,14 +92,18 @@ public class Controller {
                         break;
                 }
                 currentFigure.resize(currPointType, prevPoint, clickedPoint);
-                prevPoint = clickedPoint;
                 break;
         }
 
+        prevPoint = clickedPoint; // Обновляем предыдущие координаты
         canvas.redraw();
     }
 
-    void newFigure(Point clickedPoint) {
+    /**
+     * Произошел клик по пустому пространству
+     * @param clickedPoint
+     */
+    private void blankAreaClick(Point clickedPoint) {
         // Снимаем существующее выделение
         canvas.unSelectAll();
 
@@ -116,6 +125,26 @@ public class Controller {
 
     }
 
+    private void figureClick(Point clickedPoint, Figure clickedFigure) {
+        currentFigure = clickedFigure; // Нажатая фигура - текущая
+        prevPoint = clickedPoint; // Нажатые коориданты - уже предыдущие
+
+        if(canvas.isSelected(clickedFigure)) { // Фигура выделена
+            PointType pointType = clickedFigure.checkPoint(clickedPoint);
+
+            if(pointType == PointType.POINT_INSIZE) {
+                mode = Mode.MODE_MOVE; // Точка внутри -> перемещаем
+            } else {
+               mode = Mode.MODE_RESIZE; // По краем -> ресайзим
+            }
+            currPointType = pointType;
+
+        } else { // Фигура не выделена -> надо выделить
+            canvas.unSelectAll();
+            canvas.select(clickedFigure);
+        }
+    }
+
     @FXML // Только нажата
     void canvasOnMousePressed(MouseEvent event) {
         switch (event.getButton()) {
@@ -124,15 +153,9 @@ public class Controller {
                 Optional<Figure> clickedFigureOptional = canvas.getFigureAtPoint(clickedPoint);
 
                 if(!clickedFigureOptional.isPresent()) { // Фигуры в этой точке еще не существует => добавляем
-                    newFigure(clickedPoint);
+                    blankAreaClick(clickedPoint);
                 } else {
-                    Figure clickedFigure = clickedFigureOptional.get();
-                    if(canvas.isSelected(clickedFigure)) { // Фигура выделена
-
-                    } else { // Фигура не выделена -> надо выделить
-                        canvas.unSelectAll();
-                        canvas.select(clickedFigure);
-                    }
+                    figureClick(clickedPoint, clickedFigureOptional.get());
                 }
                 break;
             case MIDDLE:
