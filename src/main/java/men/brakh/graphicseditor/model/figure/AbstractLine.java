@@ -52,7 +52,7 @@ public abstract class AbstractLine implements Figure {
 
         if(points.size() < 2) return PointType.UNKNOWN_POINT;
 
-        for(int i = 2; i < points.size(); i++) {
+        for(int i = 1; i < points.size(); i++) {
             Point p1 = points.get(i-1);
             Point p2 = points.get(i);
 
@@ -62,11 +62,14 @@ public abstract class AbstractLine implements Figure {
             int dx = point.getX() - p1.getX();
             int dy = point.getY() - p1.getY();
 
+
             int S = dx1 * dy - dx * dy1;
+
 
             double ab = Math.sqrt(dx1 * dx1 + dy1 * dy1);
 
             double h = (double) S / ab;
+
             if (Math.abs(h) < config.getPointAreaSize()) {
                 return PointType.POINT_INSIZE;
             }
@@ -113,6 +116,9 @@ public abstract class AbstractLine implements Figure {
         }
     }
 
+    /**
+     * Выделение линии
+     */
     @Override
     public void select() {
 
