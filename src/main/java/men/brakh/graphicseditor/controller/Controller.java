@@ -122,7 +122,6 @@ public class Controller {
 
     /**
      * Произошел клик по пустому пространству
-     * @param clickedPoint
      */
     private void blankAreaClick(Point clickedPoint) {
         // Снимаем существующее выделение
@@ -146,6 +145,9 @@ public class Controller {
 
     }
 
+    /**
+     * Обработка клика по фигуре
+     */
     private void figureClick(Point clickedPoint, Figure clickedFigure) {
         currentFigure = clickedFigure; // Нажатая фигура - текущая
         prevPoint = clickedPoint; // Нажатые коориданты - уже предыдущие
