@@ -67,6 +67,26 @@ public class Controller {
         cpBrush.setValue(Color.BLACK);
     }
 
+    /**
+     * Выделение фигуры с обновлением color picker
+     */
+    private void selectWithColorUpdating(Figure figure) {
+        canvas.select(figure);
+        if(canvas.getSelected().size() == 1) {
+            cpBrush.setValue(Color.web(figure.getBushColor()));
+            cpPen.setValue(Color.web(figure.getPenColor()));
+        }
+    }
+
+    /**
+     * Снятие выделения обновлением color picker
+     */
+    private void unselectAllWithColorUpdating() {
+        canvas.unSelectAll();
+        cpBrush.setValue(Color.web(canvas.getBrushColor()));
+        cpPen.setValue(Color.web(canvas.getPenColor()));
+    }
+
 
     @FXML
     void canvasOnMouseDragged(MouseEvent event) {
@@ -106,7 +126,7 @@ public class Controller {
      */
     private void blankAreaClick(Point clickedPoint) {
         // Снимаем существующее выделение
-        canvas.unSelectAll();
+        unselectAllWithColorUpdating();
 
         String selectedFigureName = lwFigures.getSelectionModel().getSelectedItem();
 
@@ -141,8 +161,8 @@ public class Controller {
             currPointType = pointType;
 
         } else { // Фигура не выделена -> надо выделить
-            canvas.unSelectAll();
-            canvas.select(clickedFigure);
+            unselectAllWithColorUpdating();
+            selectWithColorUpdating(clickedFigure);
         }
     }
 
@@ -174,12 +194,26 @@ public class Controller {
 
     @FXML
     void brushColorSelected(ActionEvent event) {
-        canvas.setBrushColor(cpBrush.getValue().toString());
+        List<Figure> selected = canvas.getSelected();
+        String color = cpBrush.getValue().toString();
+        if(selected.size() == 0) {
+            canvas.setBrushColor(color);
+        } else { // Если есть выделенные фигуры, то меняем цвет для всех этих выделенных фигур
+            selected.forEach(figure -> figure.setBrushColor(color));
+            canvas.redraw();
+        }
     }
 
     @FXML
     void penColorSelected(ActionEvent event) {
-        canvas.setPenColor(cpPen.getValue().toString());
+        List<Figure> selected = canvas.getSelected();
+        String color = cpPen.getValue().toString();
+        if(selected.size() == 0) {
+            canvas.setPenColor(color);
+        } else { // Если есть выделенные фигуры, то меняем цвет для всех этих выделенных фигур
+            selected.forEach(figure -> figure.setPenColor(color));
+            canvas.redraw();
+        }
     }
 
 }

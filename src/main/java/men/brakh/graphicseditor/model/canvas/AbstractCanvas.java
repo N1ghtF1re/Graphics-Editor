@@ -139,7 +139,9 @@ public abstract class AbstractCanvas {
         redraw(); // После очистки перерисовываем
     }
 
-
+    public List<Figure> getSelected() {
+        return new ArrayList<>(selectedFigures);
+    }
 
     /*
      * РИСОВАНИЕ
