@@ -5,6 +5,8 @@ import men.brakh.graphicseditor.model.Point;
 import men.brakh.graphicseditor.model.PointType;
 import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
 
+import java.util.Objects;
+
 /**
  * Фигура, которую можно вписать в прямоугольник (По факту, на данный момени, все кроме линии)
  */
@@ -195,6 +197,23 @@ public abstract class AbstractRectFigure implements Figure {
      */
     @Override
     public void select() {
+        int padding = config.getPointAreaSize();
+        String color = config.getSelectionColor();
+
+        canvas.withColorSaving(color, color, config.getSelectionPenWidth(), () ->
+                {
+                    canvas.drawRectangle(new Point(left - padding, bottom - padding), new Point(left + padding, bottom + padding));
+                    canvas.drawRectangle(new Point(right - padding, bottom - padding), new Point(right + padding, bottom + padding));
+                    canvas.drawRectangle(new Point(left - padding, top - padding), new Point(left + padding, top + padding));
+                    canvas.drawRectangle(new Point(right - padding, top - padding), new Point(right + padding, top + padding));
+
+                    String penBackup = penColor;
+                    penColor = color;
+                    draw();
+                    penColor = penBackup;
+                    return null;
+                }
+        );
 
     }
 
@@ -250,5 +269,29 @@ public abstract class AbstractRectFigure implements Figure {
 
     protected void setTop(int top) {
         this.top = top;
+    }
+
+    /*
+     * HASHCODE && EQUALS
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractRectFigure that = (AbstractRectFigure) o;
+        return penWidth == that.penWidth &&
+                left == that.left &&
+                bottom == that.bottom &&
+                right == that.right &&
+                top == that.top &&
+                Objects.equals(canvas, that.canvas) &&
+                Objects.equals(brushColor, that.brushColor) &&
+                Objects.equals(penColor, that.penColor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(canvas, brushColor, penColor, penWidth, left, bottom, right, top);
     }
 }

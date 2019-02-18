@@ -9,6 +9,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import men.brakh.graphicseditor.config.GraphicEditorConfig;
 import men.brakh.graphicseditor.model.Mode;
 import men.brakh.graphicseditor.model.Point;
 import men.brakh.graphicseditor.model.PointType;
@@ -35,6 +36,7 @@ public class Controller {
     @FXML
     private ColorPicker cpPen;
 
+    private GraphicEditorConfig config = GraphicEditorConfig.getInstance();
 
     private AbstractCanvas canvas;
 
@@ -53,6 +55,8 @@ public class Controller {
         mode = Mode.MODE_VIEW;
 
         List<String> figuresNames = FigureFactory.getFiguresNames();
+
+        figuresNames.add(0, config.getFigureNoneName());
 
         ObservableList<String> items = FXCollections.observableArrayList(figuresNames);
         lwFigures.setItems(items);
@@ -90,26 +94,45 @@ public class Controller {
         canvas.redraw();
     }
 
+    void newFigure(Point clickedPoint) {
+        // Снимаем существующее выделение
+        canvas.unSelectAll();
+
+        String selectedFigureName = lwFigures.getSelectionModel().getSelectedItem();
+
+        if(selectedFigureName.equals(config.getFigureNoneName())) // Если рисовать не надо - выходим
+            return;
+
+
+        // Создаем фигуру
+        FigureFactory.getFigure(selectedFigureName, canvas, clickedPoint).ifPresent(
+                createdFigure -> {
+                    prevPoint = clickedPoint; // Обновляем предыдущие координаты
+                    currPointType = createdFigure.checkPoint(clickedPoint); // Тип точки при создании
+                    mode = Mode.MODE_CREATE; // Меняем режим на создание фигуры
+                    currentFigure = createdFigure;
+                }
+        );
+
+    }
+
     @FXML // Только нажата
     void canvasOnMousePressed(MouseEvent event) {
         switch (event.getButton()) {
             case PRIMARY:
                 Point clickedPoint = new Point(event.getX(), event.getY());
-                Optional<Figure> clickedFigure = canvas.getFigureAtPoint(clickedPoint);
+                Optional<Figure> clickedFigureOptional = canvas.getFigureAtPoint(clickedPoint);
 
-                if(!clickedFigure.isPresent()) { // Фигуры в этой точке еще не существует => добавляем
-                    String selectedFigureName = lwFigures.getSelectionModel().getSelectedItem();
+                if(!clickedFigureOptional.isPresent()) { // Фигуры в этой точке еще не существует => добавляем
+                    newFigure(clickedPoint);
+                } else {
+                    Figure clickedFigure = clickedFigureOptional.get();
+                    if(canvas.isSelected(clickedFigure)) { // Фигура выделена
 
-                    // Создаем фигуру
-                    FigureFactory.getFigure(selectedFigureName, canvas, clickedPoint).ifPresent(
-                            createdFigure -> {
-                                prevPoint = clickedPoint; // Обновляем предыдущие координаты
-                                currPointType = createdFigure.checkPoint(clickedPoint); // Тип точки при создании
-                                mode = Mode.MODE_CREATE; // Меняем режим на создание фигуры
-                                currentFigure = createdFigure;
-                            }
-                    );
-
+                    } else { // Фигура не выделена -> надо выделить
+                        canvas.unSelectAll();
+                        canvas.select(clickedFigure);
+                    }
                 }
                 break;
             case MIDDLE:

@@ -36,6 +36,20 @@ public class GraphicEditorConfig {
      */
     private int minFigureHeight;
 
+    /**
+     * Название режима, где фигуры не рисуются
+     */
+    private String figureNoneName;
+
+    /**
+     * Цвет выделения фигуры
+     */
+    private String selectionColor;
+
+    /**
+     * Размер пера при выделении
+     */
+    private int selectionPenWidth;
 
     /*
      * ГЕТТЕРЫ, КОНСТРУКТОР
@@ -59,6 +73,18 @@ public class GraphicEditorConfig {
 
     public int getMinFigureHeight() {
         return minFigureHeight;
+    }
+
+    public String getFigureNoneName() {
+        return figureNoneName;
+    }
+
+    public String getSelectionColor() {
+        return selectionColor;
+    }
+
+    public int getSelectionPenWidth() {
+        return selectionPenWidth;
     }
 
     /**
@@ -87,5 +113,8 @@ public class GraphicEditorConfig {
         minFrameWidth = Integer.valueOf(editorProps.getProperty("frame.minWidth"));
         minFigureWidth = Integer.valueOf(editorProps.getProperty("figure.minWidth"));
         minFigureHeight = Integer.valueOf(editorProps.getProperty("figure.minHeight"));
+        figureNoneName = editorProps.getProperty("figure.none.name");
+        selectionColor = editorProps.getProperty("selection.color");
+        selectionPenWidth = Integer.valueOf(editorProps.getProperty("selection.pen.width"));
     }
 }

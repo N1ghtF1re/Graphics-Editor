@@ -38,6 +38,11 @@ public class JavaFXCanvas extends AbstractCanvas {
     }
 
     @Override
+    public void drawStrokeRectangle(Point leftTop, Point rightBottom) {
+        gc.strokeRect(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());
+    }
+
+    @Override
     public void drawOval(Point leftTop, Point rightBottom) {
         gc.fillOval(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());
         gc.strokeOval(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());

@@ -7,6 +7,7 @@ import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public abstract class AbstractLine implements Figure {
@@ -121,7 +122,25 @@ public abstract class AbstractLine implements Figure {
      */
     @Override
     public void select() {
+        int padding = config.getPointAreaSize();
+        String color = config.getSelectionColor();
 
+
+        canvas.withColorSaving(color, color, config.getSelectionPenWidth(), () ->
+                {
+                    for(Point point : points) {
+                        int x = point.getX();
+                        int y = point.getY();
+                        canvas.drawRectangle(new Point(x - padding, y - padding), new Point(x + padding, y + padding));
+                    }
+
+                    String penBackup = penColor;
+                    penColor = color;
+                    draw();
+                    penColor = penBackup;
+                    return null;
+                }
+        );
     }
 
     /**
@@ -162,5 +181,25 @@ public abstract class AbstractLine implements Figure {
     @Override
     public void setPenWidth(int width) {
         penWidth = width;
+    }
+
+    /*
+     * HASHCODE && EQUALS
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractLine that = (AbstractLine) o;
+        return penWidth == that.penWidth &&
+                Objects.equals(penColor, that.penColor) &&
+                Objects.equals(canvas, that.canvas) &&
+                Objects.equals(points, that.points);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(penColor, penWidth, canvas, points);
     }
 }

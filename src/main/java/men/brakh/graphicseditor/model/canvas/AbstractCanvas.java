@@ -4,9 +4,7 @@ import men.brakh.graphicseditor.model.Point;
 import men.brakh.graphicseditor.model.PointType;
 import men.brakh.graphicseditor.model.figure.Figure;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 /**
@@ -14,6 +12,7 @@ import java.util.concurrent.Callable;
  */
 public abstract class AbstractCanvas {
     private List<Figure> figures = new ArrayList<>();
+    private Set<Figure> selectedFigures = new HashSet<>();
 
 
     /**
@@ -54,9 +53,10 @@ public abstract class AbstractCanvas {
      */
     public void redraw() {
         clear();
-        for(Figure figure : figures) {
-            figure.draw();
-        }
+
+        figures.forEach(Figure::draw); // Отрисовываем каждую фигуру
+
+        selectedFigures.forEach(Figure::select); // Выделяем фигуры, которые нужно
     }
 
     /**
@@ -83,8 +83,60 @@ public abstract class AbstractCanvas {
                 return Optional.of(figure);
             }
         }
+
         return Optional.empty();
     }
+
+    /*
+     * Выделение
+     */
+
+    /**
+     * Выделение фигуры на полотне
+     * @param figure Объект фигуры
+     */
+    public void select(Figure figure) {
+        selectedFigures.add(figure);
+        figure.select();
+    }
+
+    /**
+     * Выделение фигур на полотне
+     * @param figures Коллекция фигур
+     */
+    public void addAll(Collection<Figure> figures) {
+        selectedFigures.addAll(figures);
+
+        figures.forEach(Figure::select);
+    }
+
+    /**
+     * Проверяет, выделена ли фигура
+     * @param figure объект фигуры
+     * @return true если фигура выделена
+     */
+    public boolean isSelected(Figure figure) {
+        return selectedFigures.contains(figure);
+    }
+
+    /**
+     * Снимает выделение фигуры
+     * @param figure Объект фигуры
+     */
+    public void unSelect(Figure figure) {
+        selectedFigures.remove(figure);
+        redraw(); // После очистки перерисовываем
+    }
+
+    /**
+     * Снимает выделение ВСЕХ фигур
+     */
+    public void unSelectAll() {
+        selectedFigures.clear();
+        redraw(); // После очистки перерисовываем
+    }
+
+
 
     /*
      * РИСОВАНИЕ
@@ -103,6 +155,13 @@ public abstract class AbstractCanvas {
      * @param rightBottom Правая нижняя точка
      */
     public abstract void drawRectangle(Point leftTop, Point rightBottom);
+
+    /**
+     * Отрисовка полого прямоугольника
+     * @param leftTop Левая верхняя точка
+     * @param rightBottom Правая нижняя точка
+     */
+    public abstract void drawStrokeRectangle(Point leftTop, Point rightBottom);
 
     /**
      * Отрисовка овала
