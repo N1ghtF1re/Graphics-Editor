@@ -75,6 +75,7 @@ public class Controller {
             case MODE_VIEW:
                 break;
             case MODE_RESIZE:
+                currentFigure.resize(currPointType, prevPoint, clickedPoint);
                 break;
             case MODE_MOVE:
                 currentFigure.move(clickedPoint.delta(prevPoint));
@@ -168,6 +169,7 @@ public class Controller {
     @FXML // Уже отпущена
     void canvasOnMouseReleased(MouseEvent event) {
         mode = Mode.MODE_VIEW; // Когда отпускаем кнопку - восстанавливаем режим просмотра
+        canvas.redraw();
     }
 
     @FXML

@@ -12,6 +12,10 @@ import java.util.concurrent.Callable;
  */
 public abstract class AbstractCanvas {
     private List<Figure> figures = new ArrayList<>();
+
+    /**
+     * Множество выделенных фигур. Hashcode && Equals у фигур стандартные, все сравнения - по ссылкам
+     */
     private Set<Figure> selectedFigures = new HashSet<>();
 
 
@@ -55,7 +59,6 @@ public abstract class AbstractCanvas {
         clear();
 
         figures.forEach(Figure::draw); // Отрисовываем каждую фигуру
-
         selectedFigures.forEach(Figure::select); // Выделяем фигуры, которые нужно
     }
 

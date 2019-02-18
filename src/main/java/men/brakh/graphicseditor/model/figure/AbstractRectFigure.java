@@ -5,8 +5,6 @@ import men.brakh.graphicseditor.model.Point;
 import men.brakh.graphicseditor.model.PointType;
 import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
 
-import java.util.Objects;
-
 /**
  * Фигура, которую можно вписать в прямоугольник (По факту, на данный момени, все кроме линии)
  */
@@ -271,27 +269,4 @@ public abstract class AbstractRectFigure implements Figure {
         this.top = top;
     }
 
-    /*
-     * HASHCODE && EQUALS
-     */
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AbstractRectFigure that = (AbstractRectFigure) o;
-        return penWidth == that.penWidth &&
-                left == that.left &&
-                bottom == that.bottom &&
-                right == that.right &&
-                top == that.top &&
-                Objects.equals(canvas, that.canvas) &&
-                Objects.equals(brushColor, that.brushColor) &&
-                Objects.equals(penColor, that.penColor);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(canvas, brushColor, penColor, penWidth, left, bottom, right, top);
-    }
 }

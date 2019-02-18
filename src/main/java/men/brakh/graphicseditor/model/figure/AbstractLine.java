@@ -7,7 +7,6 @@ import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public abstract class AbstractLine implements Figure {
@@ -183,23 +182,4 @@ public abstract class AbstractLine implements Figure {
         penWidth = width;
     }
 
-    /*
-     * HASHCODE && EQUALS
-     */
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AbstractLine that = (AbstractLine) o;
-        return penWidth == that.penWidth &&
-                Objects.equals(penColor, that.penColor) &&
-                Objects.equals(canvas, that.canvas) &&
-                Objects.equals(points, that.points);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(penColor, penWidth, canvas, points);
-    }
 }
