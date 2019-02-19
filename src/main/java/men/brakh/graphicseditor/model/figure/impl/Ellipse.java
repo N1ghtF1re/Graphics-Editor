@@ -4,14 +4,14 @@ import men.brakh.graphicseditor.model.Point;
 import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
 import men.brakh.graphicseditor.model.figure.AbstractRectFigure;
 
-public class Oval extends AbstractRectFigure {
+public class Ellipse extends AbstractRectFigure {
     /**
      * Конструктор овала
      *
      * @param canvas     Объект канваса
      * @param startPoint Начальные координаты
      */
-    public Oval(AbstractCanvas canvas, Point startPoint) {
+    public Ellipse(AbstractCanvas canvas, Point startPoint) {
         super(canvas, startPoint);
     }
 

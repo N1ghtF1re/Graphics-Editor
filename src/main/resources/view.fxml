@@ -19,7 +19,7 @@
          <content>
             <AnchorPane maxHeight="720.0" maxWidth="1080.0" prefHeight="720.0" prefWidth="1080.0" style="-fx-border-color: gray; -fx-background-color: white;">
                <children>
-                  <Canvas fx:id="canvasMain" height="720.0" layoutX="67.0" layoutY="58.0" onMouseDragged="#canvasOnMouseDragged" onMousePressed="#canvasOnMousePressed" onMouseReleased="#canvasOnMouseReleased" width="1080.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Canvas fx:id="canvasMain" height="720.0" layoutX="67.0" layoutY="58.0" onMouseDragged="#canvasOnMouseDragged" onMouseMoved="#canvasOnMouseMoved" onMousePressed="#canvasOnMousePressed" onMouseReleased="#canvasOnMouseReleased" width="1080.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </content>

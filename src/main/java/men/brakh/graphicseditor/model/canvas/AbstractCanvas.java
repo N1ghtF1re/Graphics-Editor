@@ -64,6 +64,12 @@ public abstract class AbstractCanvas {
     }
 
     /**
+     * Меняет курсор на канвасе
+     * @param point Точка, на которую наведен курсор
+     */
+    public abstract void changeCursor(Point point);
+
+    /**
      * Добавление фигуры на полотно
      * @param figure объект фигуры
      * @return добавленная фигура

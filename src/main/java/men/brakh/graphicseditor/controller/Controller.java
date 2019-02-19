@@ -85,7 +85,8 @@ public class Controller {
     private void selectWithColorUpdating(Figure figure) {
         canvas.select(figure);
         if(canvas.getSelected().size() == 1) {
-            cpBrush.setValue(Color.web(figure.getBushColor()));
+            if(figure.getBushColor() != null)
+                cpBrush.setValue(Color.web(figure.getBushColor()));
             cpPen.setValue(Color.web(figure.getPenColor()));
             lblPenWidth.setText(Integer.toString(figure.getPenWidth()));
             sliderPenWidth.setValue(figure.getPenWidth());
@@ -169,6 +170,11 @@ public class Controller {
                 canvas.removeAll(selectedFigure);
                 unselectAllWithColorUpdating();
         }
+    }
+
+    @FXML
+    void canvasOnMouseMoved(MouseEvent event) {
+        canvas.changeCursor(new Point(event.getX(), event.getY()));
     }
 
     /**
