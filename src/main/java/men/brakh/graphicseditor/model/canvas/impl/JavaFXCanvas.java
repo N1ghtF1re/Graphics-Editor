@@ -11,6 +11,8 @@ public class JavaFXCanvas extends AbstractCanvas {
     private Canvas canvas;
     private GraphicsContext gc;
 
+    final double noBorder = 0.0001;
+
     public JavaFXCanvas(Canvas canvas) {
         super();
         this.canvas = canvas;
@@ -41,8 +43,6 @@ public class JavaFXCanvas extends AbstractCanvas {
     @Override
     public void drawRectangle(Point leftTop, Point rightBottom) {
         gc.fillRect(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());
-
-        Point lt = leftTop.coppy();
 
         changePointForStroke(leftTop, rightBottom);
         gc.strokeRect(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());
@@ -127,7 +127,11 @@ public class JavaFXCanvas extends AbstractCanvas {
 
     @Override
     public void setPenWidth(int borderSize) {
-        gc.setLineWidth(borderSize);
+        if(borderSize != 0) {
+            gc.setLineWidth(borderSize);
+        } else {
+            gc.setLineWidth(noBorder); // Ноль - низя, поэтому отправляем маленькое значенеи
+        }
     }
 
 }

@@ -36,6 +36,7 @@ public abstract class AbstractCanvas {
         setPenColor(penColor);
         setPenWidth(penWidth);
 
+
         try {
             func.call();
         } catch (Exception e) {
