@@ -10,6 +10,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import men.brakh.graphicseditor.config.GraphicEditorConfig;
@@ -158,6 +159,16 @@ public class Controller {
                 }
         );
 
+    }
+
+    @FXML
+    void onKeyPressed(KeyEvent event) {
+        switch (event.getCode()) {
+            case DELETE:
+                List<Figure> selectedFigure = canvas.getSelected();
+                canvas.removeAll(selectedFigure);
+                unselectAllWithColorUpdating();
+        }
     }
 
     /**

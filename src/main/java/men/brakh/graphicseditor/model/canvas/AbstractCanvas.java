@@ -76,6 +76,21 @@ public abstract class AbstractCanvas {
     }
 
     /**
+     * Удаление фигуры с полотна
+     * @param figure Объект фигуры
+     */
+    public void removeFigure(Figure figure) {
+        figures.remove(figure);
+        redraw();
+    }
+
+    public void removeAll(List<Figure> removedFigures) {
+        figures.removeAll(removedFigures);
+        redraw();
+    }
+
+
+    /**
      * Метод возвращает фигуру, расположенную в точке
      * @param point Точка
      * @return Опционал фигуры (Если в точке нет фигуры - опционал пустой)
