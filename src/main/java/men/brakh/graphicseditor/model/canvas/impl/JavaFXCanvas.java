@@ -18,7 +18,14 @@ public class JavaFXCanvas extends AbstractCanvas {
 
         setPenColor("#000");
         setBrushColor("#000");
-        setBorderSize(4);
+        setPenWidth(4);
+    }
+
+    private void changePointForStroke(Point lt, Point rb) {
+        int penWidth = getPenWidth();
+
+        lt.add(new Point(penWidth/2, penWidth/2));
+        rb.add(new Point(-penWidth/2, -penWidth/2));
     }
 
     @Override
@@ -34,6 +41,10 @@ public class JavaFXCanvas extends AbstractCanvas {
     @Override
     public void drawRectangle(Point leftTop, Point rightBottom) {
         gc.fillRect(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());
+
+        Point lt = leftTop.coppy();
+
+        changePointForStroke(leftTop, rightBottom);
         gc.strokeRect(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());
     }
 
@@ -45,8 +56,11 @@ public class JavaFXCanvas extends AbstractCanvas {
     @Override
     public void drawOval(Point leftTop, Point rightBottom) {
         gc.fillOval(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());
+        changePointForStroke(leftTop, rightBottom);
         gc.strokeOval(leftTop.getX(), leftTop.getY(), rightBottom.getX()-leftTop.getX(), rightBottom.getY()-leftTop.getY());
     }
+
+
 
     @Override
     public void drawRhombus(Point leftTop, Point rightBottom) {
@@ -63,6 +77,25 @@ public class JavaFXCanvas extends AbstractCanvas {
         double ys[] = new double[]{leftAndRightY, topY, leftAndRightY, bottomY};
 
         gc.fillPolygon(xs, ys, xs.length);
+
+        changePointForStroke(leftTop, rightBottom);
+        drawStrokeRhombus(leftTop, rightBottom);
+    }
+
+    @Override
+    public void drawStrokeRhombus(Point leftTop, Point rightBottom) {
+        int leftX = leftTop.getX();
+        int topAndBottomX = leftTop.getX() + (rightBottom.getX() - leftTop.getX()) / 2;
+        int rightX = rightBottom.getX();
+
+        int leftAndRightY = leftTop.getY() + (rightBottom.getY() - leftTop.getY()) / 2;
+        int topY = leftTop.getY();
+        int bottomY = rightBottom.getY();
+
+
+        double xs[] = new double[]{leftX, topAndBottomX, rightX, topAndBottomX};
+        double ys[] = new double[]{leftAndRightY, topY, leftAndRightY, bottomY};
+
         gc.strokePolygon(xs, ys, xs.length);
     }
 
@@ -88,12 +121,12 @@ public class JavaFXCanvas extends AbstractCanvas {
     }
 
     @Override
-    public int getBorderSize() {
+    public int getPenWidth() {
         return (int) gc.getLineWidth();
     }
 
     @Override
-    public void setBorderSize(int borderSize) {
+    public void setPenWidth(int borderSize) {
         gc.setLineWidth(borderSize);
     }
 

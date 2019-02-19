@@ -37,9 +37,10 @@ public class Point {
         this.y = point.getY();
     }
 
-    public void add(Point point) {
+    public Point add(Point point) {
         this.x += point.getX();
         this.y += point.getY();
+        return this;
     }
 
     /**

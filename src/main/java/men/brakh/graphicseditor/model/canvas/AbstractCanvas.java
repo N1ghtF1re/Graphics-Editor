@@ -30,11 +30,11 @@ public abstract class AbstractCanvas {
     public void withColorSaving(String brushColor, String penColor, int penWidth, Callable<Void> func) {
         String brushColorBackup = getBrushColor();
         String penColorBackup = getPenColor();
-        int penWidthBackup = getBorderSize();
+        int penWidthBackup = getPenWidth();
 
         setBrushColor(brushColor);
         setPenColor(penColor);
-        setBorderSize(penWidth);
+        setPenWidth(penWidth);
 
         try {
             func.call();
@@ -44,7 +44,7 @@ public abstract class AbstractCanvas {
 
         setBrushColor(brushColorBackup);
         setPenColor(penColorBackup);
-        setBorderSize(penWidthBackup);
+        setPenWidth(penWidthBackup);
     }
 
     /**
@@ -177,10 +177,17 @@ public abstract class AbstractCanvas {
 
     /**
      * Отрисовка ромба
-     * @param leftTop Левая верхняя точка (Если вписать в прямоугольник)
-     * @param rightBottom Правая нижняя точка (Если вписать в прямоугольник)
+     * @param leftTop Левая верхняя точка (Если вписать в квадрат)
+     * @param rightBottom Правая нижняя точка (Если вписать в квадрат)
      */
     public abstract void drawRhombus(Point leftTop, Point rightBottom);
+
+    /**
+     * Отрисовка полого ромба
+     * @param leftTop Левая верхняя точка (Если вписать в квадрат)
+     * @param rightBottom Правая нижняя точка (Если вписать в квадрат)
+     */
+    public abstract void drawStrokeRhombus(Point leftTop, Point rightBottom);
 
     /*
      * ПОЛЯ САМОГО КАНВАСА
@@ -190,6 +197,6 @@ public abstract class AbstractCanvas {
     public abstract void setBrushColor(String brushColor);
     public abstract String getPenColor();
     public abstract void setPenColor(String penColor);
-    public abstract int getBorderSize();
-    public abstract void setBorderSize(int borderSize);
+    public abstract int getPenWidth();
+    public abstract void setPenWidth(int borderSize);
 }

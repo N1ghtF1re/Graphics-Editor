@@ -38,7 +38,7 @@ public abstract class AbstractRectFigure implements Figure {
 
         this.brushColor = canvas.getBrushColor();
         this.penColor = canvas.getPenColor();
-        this.penWidth = canvas.getBorderSize();
+        this.penWidth = canvas.getPenWidth();
 
         canvas.addFigure(this);
     }
@@ -198,6 +198,7 @@ public abstract class AbstractRectFigure implements Figure {
         int padding = config.getPointAreaSize();
         String color = config.getSelectionColor();
 
+
         canvas.withColorSaving(color, color, config.getSelectionPenWidth(), () ->
                 {
                     canvas.drawRectangle(new Point(left - padding, bottom - padding), new Point(left + padding, bottom + padding));
@@ -207,7 +208,7 @@ public abstract class AbstractRectFigure implements Figure {
 
                     String penBackup = penColor;
                     penColor = color;
-                    draw();
+                    canvas.drawStrokeRectangle(getLeftTopPoint(), getRightBottomPoint()); // ХЗ КАК ЛУЧШЕ
                     penColor = penBackup;
                     return null;
                 }

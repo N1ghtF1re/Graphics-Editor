@@ -26,11 +26,13 @@
       </ScrollPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
          <children>
-            <ListView fx:id="lwFigures" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Pane layoutX="-14.0" layoutY="312.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <ListView fx:id="lwFigures" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Pane layoutX="-14.0" layoutY="312.0" prefHeight="130.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <ColorPicker fx:id="cpBrush" layoutX="14.0" layoutY="14.0" onAction="#brushColorSelected" prefHeight="73.0" prefWidth="82.0" style="-fx-color-label-visible: false; -fx-color-rect-width: 50px; -fx-color-rect-height: 50px; -fx-background-color: none;" />
-                  <ColorPicker fx:id="cpPen" layoutX="100.0" layoutY="14.0" onAction="#penColorSelected" prefHeight="73.0" prefWidth="82.0" style="-fx-color-label-visible: false; -fx-color-rect-width: 50px; -fx-color-rect-height: 50px; -fx-background-color: none;" />
+                  <ColorPicker fx:id="cpBrush" layoutX="14.0" onAction="#brushColorSelected" prefHeight="73.0" prefWidth="82.0" style="-fx-color-label-visible: false; -fx-color-rect-width: 50px; -fx-color-rect-height: 50px; -fx-background-color: none;" />
+                  <ColorPicker fx:id="cpPen" layoutX="100.0" onAction="#penColorSelected" prefHeight="73.0" prefWidth="82.0" style="-fx-color-label-visible: false; -fx-color-rect-width: 50px; -fx-color-rect-height: 50px; -fx-background-color: none;" />
+                  <Slider fx:id="sliderPenWidth" layoutX="14.0" layoutY="80.0" max="40.0" min="1.0" onMouseReleased="#sliderPenWidthChanged" prefHeight="15.0" prefWidth="167.0" />
+                  <Label fx:id="lblPenWidth" alignment="CENTER" layoutX="17.0" layoutY="101.0" prefHeight="15.0" prefWidth="167.0" text="0" textAlignment="CENTER" />
                </children>
             </Pane>
          </children></AnchorPane>

@@ -24,7 +24,7 @@ public abstract class AbstractLine implements Figure {
         points.add(startPoint);
 
         this.penColor = canvas.getPenColor();
-        this.penWidth = canvas.getBorderSize();
+        this.penWidth = canvas.getPenWidth();
 
         canvas.addFigure(this);
     }

@@ -3,10 +3,13 @@ package men.brakh.graphicseditor.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import men.brakh.graphicseditor.config.GraphicEditorConfig;
@@ -35,6 +38,14 @@ public class Controller {
 
     @FXML
     private ColorPicker cpPen;
+
+    @FXML
+    private Label lblPenWidth;
+
+    @FXML
+    private Slider sliderPenWidth;
+
+
 
     private GraphicEditorConfig config = GraphicEditorConfig.getInstance();
 
@@ -75,6 +86,8 @@ public class Controller {
         if(canvas.getSelected().size() == 1) {
             cpBrush.setValue(Color.web(figure.getBushColor()));
             cpPen.setValue(Color.web(figure.getPenColor()));
+            lblPenWidth.setText(Integer.toString(figure.getPenWidth()));
+            sliderPenWidth.setValue(figure.getPenWidth());
         }
     }
 
@@ -85,6 +98,8 @@ public class Controller {
         canvas.unSelectAll();
         cpBrush.setValue(Color.web(canvas.getBrushColor()));
         cpPen.setValue(Color.web(canvas.getPenColor()));
+        lblPenWidth.setText(Integer.toString(canvas.getPenWidth()));
+        sliderPenWidth.setValue(canvas.getPenWidth());
     }
 
 
@@ -216,6 +231,19 @@ public class Controller {
             selected.forEach(figure -> figure.setPenColor(color));
             canvas.redraw();
         }
+    }
+
+    @FXML
+    void sliderPenWidthChanged(Event event) {
+        List<Figure> selected = canvas.getSelected();
+        int penWidth = (int) Math.round(sliderPenWidth.getValue());
+        if(selected.size() == 0){
+            canvas.setPenWidth(penWidth);
+        } else {
+            selected.forEach(figure -> figure.setPenWidth(penWidth));
+            canvas.redraw();
+        }
+        lblPenWidth.setText(Integer.toString(penWidth));
     }
 
 }
