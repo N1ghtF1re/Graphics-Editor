@@ -39,20 +39,32 @@ public abstract class AbstractSquareFigure extends AbstractRectFigure{
         switch (pointType) {
 
             case LT_VERTEX:
-            case LEFT_SIDE:
-            case TOP_SIDE:
                 setLeft(right - newSize);
                 setTop(bottom - newSize);
                 break;
+            case LEFT_SIDE:
+                setLeft(right - width);
+                setTop(bottom - width);
+                break;
+            case TOP_SIDE:
+                setLeft(right - height);
+                setTop(bottom - height);
+                break;
             case RT_VERTEX:
-            case RIGHT_SIDE:
                 setRight(left + newSize);
                 setTop(bottom - newSize);
                 break;
+            case RIGHT_SIDE:
+                setRight(left + width);
+                setTop(bottom - width);
+                break;
             case LB_VERTEX:
-            case BOTTOM_SIDE:
                 setLeft(right - newSize);
                 setBottom(top + newSize);
+                break;
+            case BOTTOM_SIDE:
+                setLeft(right - height);
+                setBottom(top + height);
                 break;
             case RB_VERTEX:
                 setBottom(top + newSize);
