@@ -108,7 +108,7 @@ public abstract class AbstractRectFigure implements Figure {
             return PointType.BOTTOM_SIDE;
         }
 
-        return PointType.POINT_INSIZE; // Остался только один вариант - точка внутри фигуры
+        return PointType.POINT_INSIDE; // Остался только один вариант - точка внутри фигуры
     }
 
     /**

@@ -46,7 +46,7 @@ public class JavaFXCanvas extends AbstractCanvas {
         if(figureOptional.isPresent() && isSelected(figureOptional.get())) {
             PointType type = figureOptional.get().checkPoint(point);
             switch (type) {
-                case POINT_INSIZE:
+                case POINT_INSIDE:
                     canvas.setCursor(Cursor.MOVE);
                     break;
                 case LT_VERTEX:

@@ -187,7 +187,7 @@ public class Controller {
         if(canvas.isSelected(clickedFigure)) { // Фигура выделена
             PointType pointType = clickedFigure.checkPoint(clickedPoint);
 
-            if(pointType == PointType.POINT_INSIZE) {
+            if(pointType == PointType.POINT_INSIDE) {
                 mode = Mode.MODE_MOVE; // Точка внутри -> перемещаем
             } else {
                mode = Mode.MODE_RESIZE; // По краем -> ресайзим

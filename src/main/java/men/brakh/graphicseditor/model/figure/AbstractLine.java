@@ -71,7 +71,7 @@ public abstract class AbstractLine implements Figure {
             double h = (double) S / ab;
 
             if (Math.abs(h) < config.getPointAreaSize()) {
-                return PointType.POINT_INSIZE;
+                return PointType.POINT_INSIDE;
             }
         }
         return PointType.UNKNOWN_POINT;
