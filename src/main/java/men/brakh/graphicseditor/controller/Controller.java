@@ -207,7 +207,9 @@ public class Controller {
                 Point clickedPoint = new Point(event.getX(), event.getY());
                 Optional<Figure> clickedFigureOptional = canvas.getFigureAtPoint(clickedPoint);
 
-                if(!clickedFigureOptional.isPresent()) { // Фигуры в этой точке еще не существует => добавляем
+                boolean isFigureNone = lwFigures.getSelectionModel().getSelectedItem().equals(config.getFigureNoneName());
+
+                if(!clickedFigureOptional.isPresent() || !isFigureNone) { // Фигуры в этой точке еще не существует => добавляем
                     blankAreaClick(clickedPoint);
                 } else {
                     figureClick(clickedPoint, clickedFigureOptional.get());
