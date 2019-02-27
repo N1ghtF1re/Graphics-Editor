@@ -2,6 +2,7 @@ package men.brakh.graphicseditor.model.canvas;
 
 import men.brakh.graphicseditor.model.Point;
 import men.brakh.graphicseditor.model.PointType;
+import men.brakh.graphicseditor.model.figure.AbstractRectFigure;
 import men.brakh.graphicseditor.model.figure.Figure;
 
 import java.util.*;
@@ -129,10 +130,27 @@ public abstract class AbstractCanvas {
      * Выделение фигур на полотне
      * @param figures Коллекция фигур
      */
-    public void addAll(Collection<Figure> figures) {
+    public void selectAll(Collection<Figure> figures) {
         selectedFigures.addAll(figures);
 
         figures.forEach(Figure::select);
+    }
+
+    /**
+     * Возвращает список фигур внутри прямоугольника
+     */
+    public List<Figure> getFiguresInside(AbstractRectFigure figure) {
+        List<Figure> figuresInside = new ArrayList<>();
+
+        figures.forEach(
+                currFigure -> {
+                    if(currFigure.isInside(figure)) {
+                        figuresInside.add(currFigure);
+                    }
+                }
+        );
+
+        return figuresInside;
     }
 
     /**

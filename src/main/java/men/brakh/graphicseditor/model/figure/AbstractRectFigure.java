@@ -119,6 +119,11 @@ public abstract class AbstractRectFigure implements Figure {
      */
     @Override
     public void resize(PointType pointType, Point fromPoint, Point toPoint) {
+        int oldLeft = left;
+        int oldTop = top;
+        int oldRight = right;
+        int oldBottom = bottom;
+
         switch (pointType) {
             case LT_VERTEX: // Левый верхний
                 left = toPoint.getX();
@@ -152,6 +157,30 @@ public abstract class AbstractRectFigure implements Figure {
                 throw new UnsupportedOperationException();
         }
         normalzie(); // Выполняем нормализацию координат после перемещения
+
+        if(right - left < config.getMinFigureWidth()) {
+            left = oldLeft;
+            right = oldRight;
+        }
+
+        if(bottom - top < config.getMinFigureHeight()) {
+            top = oldTop;
+            bottom = oldBottom;
+        }
+    }
+
+    /**
+     * Возвращает true, если текущая фигура находится внутри другой фигуры
+     * @param rectFigure Другая фигура
+     */
+    @Override
+    public boolean isInside(Figure rectFigure) {
+        AbstractRectFigure figure = (AbstractRectFigure) rectFigure;
+
+        return this.getLeftTopPoint().xInRange(figure.left, figure.right)
+            && this.getRightBottomPoint().xInRange(figure.left, figure.right)
+            && this.getLeftTopPoint().yInRange(figure.top, figure.bottom)
+            && this.getRightBottomPoint().yInRange(figure.top, figure.bottom);
     }
 
     /**

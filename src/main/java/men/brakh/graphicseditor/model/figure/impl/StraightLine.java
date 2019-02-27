@@ -9,7 +9,7 @@ public class StraightLine extends AbstractLine {
     private GraphicEditorConfig config = GraphicEditorConfig.getInstance();
 
     public StraightLine(AbstractCanvas canvas, Point startPoint) {
-        super(canvas, startPoint.coppy());
+        super(canvas, startPoint.copy());
         move(new Point(-config.getMinFigureWidth(), -config.getMinFigureHeight()));
         super.addPoint(startPoint);
     }

@@ -21,6 +21,7 @@ import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
 import men.brakh.graphicseditor.model.canvas.impl.JavaFXCanvas;
 import men.brakh.graphicseditor.model.figure.Figure;
 import men.brakh.graphicseditor.model.figure.FigureFactory;
+import men.brakh.graphicseditor.model.figure.impl.Rectangle;
 import men.brakh.graphicseditor.view.controls.FiguresListCell;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class Controller {
     @FXML
     private Slider sliderPenWidth;
 
-
+    private Rectangle selection;
 
     private GraphicEditorConfig config = GraphicEditorConfig.getInstance();
 
@@ -115,8 +116,11 @@ public class Controller {
                 currentFigure.resize(currPointType, prevPoint, clickedPoint);
                 break;
             case MODE_MOVE:
-                currentFigure.move(clickedPoint.delta(prevPoint));
+                List<Figure> selectedFigures = canvas.getSelected();
+                selectedFigures.forEach(figure -> figure.move(clickedPoint.delta(prevPoint)));
                 break;
+            case MODE_SELECTION:
+                currentFigure = selection;
             case MODE_CREATE:
                 PointType pointType = currentFigure.checkPoint(prevPoint);
 
@@ -131,6 +135,8 @@ public class Controller {
                 }
                 currentFigure.resize(currPointType, prevPoint, clickedPoint);
                 break;
+
+
         }
 
         prevPoint = clickedPoint; // Обновляем предыдущие координаты
@@ -146,8 +152,14 @@ public class Controller {
 
         String selectedFigureName = lwFigures.getSelectionModel().getSelectedItem();
 
-        if(selectedFigureName.equals(config.getFigureNoneName())) // Если рисовать не надо - выходим
+        if(selectedFigureName.equals(config.getFigureNoneName())) { // Если рисовать не надо - надо выделить
+            prevPoint = clickedPoint;
+            mode = Mode.MODE_SELECTION;
+            selection = new Rectangle(canvas, clickedPoint);
+            selection.setBrushColor("#fff0");
+            currPointType = selection.checkPoint(clickedPoint);
             return;
+        }
 
 
         // Создаем фигуру
@@ -224,6 +236,12 @@ public class Controller {
 
     @FXML // Уже отпущена
     void canvasOnMouseReleased(MouseEvent event) {
+        if(mode == Mode.MODE_SELECTION) {
+            List<Figure> selectedFigures = canvas.getFiguresInside(selection);
+            selectedFigures.remove(selection);
+            canvas.selectAll(selectedFigures);
+            canvas.removeFigure(selection);
+        }
         mode = Mode.MODE_VIEW; // Когда отпускаем кнопку - восстанавливаем режим просмотра
         canvas.redraw();
     }

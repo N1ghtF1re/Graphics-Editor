@@ -28,7 +28,7 @@ public class Point {
         return y;
     }
 
-    public Point coppy() {
+    public Point copy() {
         return new Point(x, y);
     }
 

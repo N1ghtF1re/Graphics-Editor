@@ -117,6 +117,32 @@ public abstract class AbstractLine implements Figure {
     }
 
     /**
+     * Возвращает true, если текущая фигура находится внутри другой фигуры
+     * @param rectFigure Другая фигура
+     */
+    @Override
+    public boolean isInside(Figure rectFigure) {
+        AbstractRectFigure figure = (AbstractRectFigure) rectFigure;
+
+        final boolean[] inside = {true};
+
+        points.forEach(
+                point -> {
+                    if(!point.xInRange(figure.getLeftTopPoint().getX(), figure.getRightBottomPoint().getX())) {
+                        inside[0] = false;
+                    }
+
+                    if(!point.yInRange(figure.getLeftTopPoint().getY(), figure.getRightBottomPoint().getY())) {
+                        inside[0] = false;
+                    }
+                }
+        );
+
+        return inside[0];
+    }
+
+
+    /**
      * Выделение линии
      */
     @Override

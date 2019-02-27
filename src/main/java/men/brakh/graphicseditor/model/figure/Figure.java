@@ -14,6 +14,8 @@ public interface Figure {
     void select();
     void draw();
 
+    boolean isInside(Figure figure);
+
     String getPenColor();
     String getBushColor();
     int getPenWidth();
