@@ -51,6 +51,11 @@ public class GraphicEditorConfig {
      */
     private int selectionPenWidth;
 
+    /**
+     * Максимальный размер стека изменений
+     */
+    private int changesStackSize;
+
     /*
      * ГЕТТЕРЫ, КОНСТРУКТОР
      */
@@ -87,6 +92,10 @@ public class GraphicEditorConfig {
         return selectionPenWidth;
     }
 
+    public int getChangesStackSize() {
+        return changesStackSize;
+    }
+
     /**
      * Получение синглтона
      */
@@ -116,5 +125,6 @@ public class GraphicEditorConfig {
         figureNoneName = editorProps.getProperty("figure.none.name");
         selectionColor = editorProps.getProperty("selection.color");
         selectionPenWidth = Integer.valueOf(editorProps.getProperty("selection.pen.width"));
+        changesStackSize = Integer.valueOf(editorProps.getProperty("changesStack.size"));
     }
 }

@@ -10,8 +10,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.paint.Color;
 import men.brakh.graphicseditor.config.GraphicEditorConfig;
 import men.brakh.graphicseditor.model.Mode;
@@ -19,6 +18,8 @@ import men.brakh.graphicseditor.model.Point;
 import men.brakh.graphicseditor.model.PointType;
 import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
 import men.brakh.graphicseditor.model.canvas.impl.JavaFXCanvas;
+import men.brakh.graphicseditor.model.changes.ChangeType;
+import men.brakh.graphicseditor.model.changes.ChangesStack;
 import men.brakh.graphicseditor.model.figure.Figure;
 import men.brakh.graphicseditor.model.figure.FigureFactory;
 import men.brakh.graphicseditor.model.figure.impl.Rectangle;
@@ -28,6 +29,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class Controller {
+    private final KeyCombination undoKc = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
+
 
     @FXML
     private Canvas canvasMain;
@@ -61,6 +64,8 @@ public class Controller {
 
     private PointType currPointType; // Текущий тип точки
 
+    private ChangesStack changesStack; // Стек изменений
+
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
@@ -78,6 +83,8 @@ public class Controller {
 
         cpPen.setValue(Color.BLACK);
         cpBrush.setValue(Color.BLACK);
+
+        changesStack = new ChangesStack(canvas, config.getChangesStackSize());
     }
 
     /**
@@ -176,12 +183,20 @@ public class Controller {
 
     @FXML
     void onKeyPressed(KeyEvent event) {
+        if(undoKc.match(event)) {
+            changesStack.undo();
+            unselectAllWithColorUpdating();
+            return;
+        }
         switch (event.getCode()) {
             case DELETE:
                 List<Figure> selectedFigure = canvas.getSelected();
+                selectedFigure.forEach(figure -> changesStack.add(ChangeType.CHANGE_REMOVE, figure));
                 canvas.removeAll(selectedFigure);
                 unselectAllWithColorUpdating();
+                break;
         }
+
     }
 
     @FXML
@@ -201,8 +216,11 @@ public class Controller {
 
             if(pointType == PointType.POINT_INSIDE) {
                 mode = Mode.MODE_MOVE; // Точка внутри -> перемещаем
+                List<Figure> selectedFigures = canvas.getSelected();
+                selectedFigures.forEach(figure -> changesStack.add(ChangeType.CHANGE_MOVE, figure));
             } else {
-               mode = Mode.MODE_RESIZE; // По краем -> ресайзим
+                mode = Mode.MODE_RESIZE; // По краем -> ресайзим
+                changesStack.add(ChangeType.CHANGE_RESIZE, clickedFigure);
             }
             currPointType = pointType;
 
@@ -236,13 +254,22 @@ public class Controller {
 
     @FXML // Уже отпущена
     void canvasOnMouseReleased(MouseEvent event) {
-        if(mode == Mode.MODE_SELECTION) {
-            List<Figure> selectedFigures = canvas.getFiguresInside(selection);
-            selectedFigures.remove(selection);
-            canvas.selectAll(selectedFigures);
-            canvas.removeFigure(selection);
+        List<Figure> selectedFigures;
+
+        switch (mode) {
+            case MODE_CREATE:
+                changesStack.add(ChangeType.CHANGE_ADD, currentFigure);
+                break;
+            case MODE_SELECTION:
+                selectedFigures = canvas.getFiguresInside(selection);
+                selectedFigures.remove(selection);
+                canvas.selectAll(selectedFigures);
+                canvas.removeFigure(selection);
+                break;
         }
+
         mode = Mode.MODE_VIEW; // Когда отпускаем кнопку - восстанавливаем режим просмотра
+
         canvas.redraw();
     }
 
@@ -253,7 +280,10 @@ public class Controller {
         if(selected.size() == 0) {
             canvas.setBrushColor(color);
         } else { // Если есть выделенные фигуры, то меняем цвет для всех этих выделенных фигур
-            selected.forEach(figure -> figure.setBrushColor(color));
+            selected.forEach(figure -> {
+                figure.setBrushColor(color);
+                changesStack.add(ChangeType.CHANGE_RECOLOR, figure);
+            });
             canvas.redraw();
         }
     }
@@ -265,7 +295,10 @@ public class Controller {
         if(selected.size() == 0) {
             canvas.setPenColor(color);
         } else { // Если есть выделенные фигуры, то меняем цвет для всех этих выделенных фигур
-            selected.forEach(figure -> figure.setPenColor(color));
+            selected.forEach(figure -> {
+                figure.setPenColor(color);
+                changesStack.add(ChangeType.CHANGE_RECOLOR, figure);
+            });
             canvas.redraw();
         }
     }
@@ -277,7 +310,10 @@ public class Controller {
         if(selected.size() == 0){
             canvas.setPenWidth(penWidth);
         } else {
-            selected.forEach(figure -> figure.setPenWidth(penWidth));
+            selected.forEach(figure -> {
+                figure.setPenWidth(penWidth);
+                changesStack.add(ChangeType.CHANGE_RECOLOR, figure);
+            });
             canvas.redraw();
         }
         lblPenWidth.setText(Integer.toString(penWidth));

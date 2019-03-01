@@ -7,7 +7,6 @@ import men.brakh.graphicseditor.model.PointType;
  * Интерфейс фигуры
  */
 public interface Figure {
-
     PointType checkPoint(Point point);
     void resize(PointType pointType, Point fromPoint, Point toPoint);
     void move(Point deltaPoint);
@@ -24,4 +23,6 @@ public interface Figure {
     void setBrushColor(String color);
     void setPenWidth(int width);
 
+    void assign(Figure figure);
+    Figure copy();
 }

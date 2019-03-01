@@ -19,6 +19,7 @@ public abstract class AbstractLine implements Figure {
 
     protected List<Point> points = new ArrayList<>();
 
+
     public AbstractLine(AbstractCanvas canvas, Point startPoint) {
         this.canvas = canvas;
         points.add(startPoint);
@@ -28,6 +29,38 @@ public abstract class AbstractLine implements Figure {
 
         canvas.addFigure(this);
     }
+
+    @Override
+    public Figure copy() {
+        AbstractLine newLine = null;
+        try {
+            newLine = this.getClass().getConstructor(AbstractCanvas.class, Point.class)
+                    .newInstance(this.canvas, this.points.get(0));
+
+            newLine.assign(this);
+
+            canvas.removeFigure(newLine);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return newLine;
+
+    }
+
+    @Override
+    public void assign(Figure figure) {
+        AbstractLine line = (AbstractLine) figure;
+
+        line.canvas = this.canvas;
+        line.penColor = this.penColor;
+        line.penWidth = this.penWidth;
+
+        List<Point> newPoints = new ArrayList<>();
+        points.forEach(point -> newPoints.add(point.copy()));
+        line.points = newPoints;
+    }
+
 
     /**
      * Добавление вершины линии

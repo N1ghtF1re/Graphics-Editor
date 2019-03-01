@@ -29,7 +29,6 @@ public class RectFigureTest {
         }
 
 
-        public void select() {}
 
         public void draw() {}
     }

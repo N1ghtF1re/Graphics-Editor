@@ -35,9 +35,9 @@ public class FigureFactory {
     public static Optional<Figure> getFigure(String name, AbstractCanvas canvas, Point startPoint) {
         for(Class<Figure> figureClass: figuresClasses) {
             if (figureClass.getName().endsWith(name)) {
-                Constructor<?>[] constructors = figureClass.getConstructors();
                 try {
-                    Figure figure = (Figure) constructors[0].newInstance(canvas, startPoint);
+                    Constructor constructor = figureClass.getConstructor(AbstractCanvas.class, Point.class);
+                    Figure figure = (Figure) constructor.newInstance(canvas, startPoint);
                     return Optional.of(figure);
                 } catch (Exception e) {
                     return Optional.empty();

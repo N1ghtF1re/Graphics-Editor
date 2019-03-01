@@ -43,6 +43,47 @@ public abstract class AbstractRectFigure implements Figure {
         canvas.addFigure(this);
     }
 
+
+    /**
+     * Копирование фигуры
+     * Копия на канвас не добавляется автоматически
+     */
+    @Override
+    public Figure copy() {
+        AbstractRectFigure newFigure = null;
+        try {
+            newFigure = this.getClass().getConstructor(AbstractCanvas.class, Point.class)
+                    .newInstance(this.canvas, this.getRightBottomPoint());
+
+            newFigure.assign(this);
+
+            canvas.removeFigure(newFigure);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return newFigure;
+    }
+
+    /**
+     * Скопировать все свойства у другой фигуры
+     */
+    @Override
+    public void assign(Figure figure) {
+        AbstractRectFigure rectFigure = (AbstractRectFigure) figure;
+        this.left = rectFigure.left;
+        this.right = rectFigure.right;
+        this.bottom = rectFigure.bottom;
+        this.top = rectFigure.top;
+
+        this.canvas = rectFigure.canvas;
+
+        this.brushColor = rectFigure.brushColor;
+        this.penWidth = rectFigure.penWidth;
+        this.penColor = rectFigure.penColor;
+    }
+
+
     /**
      * Координаты левой нижней точки
      * @return Координаты левой нижней точки
@@ -223,7 +264,7 @@ public abstract class AbstractRectFigure implements Figure {
      * Выделение фигуры на полотне
      */
     @Override
-    public void select() {
+    public final void select() {
         int padding = config.getPointAreaSize();
         String color = config.getSelectionColor();
 
