@@ -20,6 +20,8 @@ public abstract class AbstractCanvas {
     private Set<Figure> selectedFigures = new HashSet<>();
 
 
+
+
     /**
      * Выполнение метода с сохранением цвета полотна
      * (Применяется цвет фигуры, после чего возвращается предыдущие цвета полотна)
@@ -96,6 +98,10 @@ public abstract class AbstractCanvas {
         redraw();
     }
 
+    public void removeAll() {
+        figures.clear();
+        redraw();
+    }
 
     /**
      * Метод возвращает фигуру, расположенную в точке

@@ -6,10 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.paint.Color;
 import men.brakh.graphicseditor.config.GraphicEditorConfig;
@@ -32,6 +29,12 @@ public class Controller {
     private final KeyCombination undoKc = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
     private final KeyCombination redoKc = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN);
 
+
+    @FXML
+    private MenuItem menuRedo;
+
+    @FXML
+    private MenuItem menuUndo;
 
     @FXML
     private Canvas canvasMain;
@@ -185,18 +188,17 @@ public class Controller {
     @FXML
     void onKeyPressed(KeyEvent event) {
         if(undoKc.match(event)) {
-            changesStack.undo();
-            unselectAllWithColorUpdating();
+            menuUndoClicked(event);
             return;
         } else if(redoKc.match(event)) {
-            changesStack.redo();
-            unselectAllWithColorUpdating();
+            menuRedoClicked(event);
             return;
         }
         switch (event.getCode()) {
             case DELETE:
                 List<Figure> selectedFigure = canvas.getSelected();
                 selectedFigure.forEach(figure -> changesStack.add(ChangeType.CHANGE_REMOVE, figure));
+                menuUndo.setDisable(false);
                 canvas.removeAll(selectedFigure);
                 unselectAllWithColorUpdating();
                 break;
@@ -223,9 +225,11 @@ public class Controller {
                 mode = Mode.MODE_MOVE; // Точка внутри -> перемещаем
                 List<Figure> selectedFigures = canvas.getSelected();
                 selectedFigures.forEach(figure -> changesStack.add(ChangeType.CHANGE_MOVE, figure));
+                menuUndo.setDisable(false);
             } else {
                 mode = Mode.MODE_RESIZE; // По краем -> ресайзим
                 changesStack.add(ChangeType.CHANGE_RESIZE, clickedFigure);
+                menuUndo.setDisable(false);
             }
             currPointType = pointType;
 
@@ -264,6 +268,7 @@ public class Controller {
         switch (mode) {
             case MODE_CREATE:
                 changesStack.add(ChangeType.CHANGE_ADD, currentFigure);
+                menuUndo.setDisable(false);
                 break;
             case MODE_SELECTION:
                 selectedFigures = canvas.getFiguresInside(selection);
@@ -288,6 +293,7 @@ public class Controller {
             selected.forEach(figure -> {
                 changesStack.add(ChangeType.CHANGE_RECOLOR, figure);
                 figure.setBrushColor(color);
+                menuUndo.setDisable(false);
             });
             canvas.redraw();
         }
@@ -302,6 +308,7 @@ public class Controller {
         } else { // Если есть выделенные фигуры, то меняем цвет для всех этих выделенных фигур
             selected.forEach(figure -> {
                 changesStack.add(ChangeType.CHANGE_RECOLOR, figure);
+                menuUndo.setDisable(false);
                 figure.setPenColor(color);
             });
             canvas.redraw();
@@ -317,6 +324,7 @@ public class Controller {
         } else {
             selected.forEach(figure -> {
                 changesStack.add(ChangeType.CHANGE_RECOLOR, figure);
+                menuUndo.setDisable(false);
                 figure.setPenWidth(penWidth);
             });
             canvas.redraw();
@@ -324,4 +332,35 @@ public class Controller {
         lblPenWidth.setText(Integer.toString(penWidth));
     }
 
+
+    // МЕНЮ
+    @FXML
+    void menuNewClicked(Event event) {
+        changesStack.clear();
+        canvas.removeAll();
+    }
+
+    @FXML
+    void menuRedoClicked(Event event) {
+        changesStack.redo();
+        unselectAllWithColorUpdating();
+
+        if(changesStack.redoEmpty()) {
+            menuRedo.setDisable(true);
+        }
+
+        menuUndo.setDisable(false);
+
+    }
+    @FXML
+    void menuUndoClicked(Event event) {
+        changesStack.undo();
+        unselectAllWithColorUpdating();
+
+        if(changesStack.undoEmpty()) {
+            menuUndo.setDisable(true);
+        }
+
+        menuRedo.setDisable(false);
+    }
 }

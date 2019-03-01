@@ -18,8 +18,21 @@ public class ChangesStack {
         this.canvas = canvas;
     }
 
+    public boolean undoEmpty() {
+        return undoStack.isEmpty();
+    }
+
+    public boolean redoEmpty() {
+        return redoStack.isEmpty();
+    }
+
     public synchronized void add(ChangeType changeType, Figure figure) {
         undoStack.push(new Change<>(changeType, figure, figure.copy()));
+        redoStack.clear();
+    }
+
+    public synchronized void clear() {
+        undoStack.clear();
         redoStack.clear();
     }
 
