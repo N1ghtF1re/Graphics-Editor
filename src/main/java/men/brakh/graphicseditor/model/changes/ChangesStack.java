@@ -20,11 +20,22 @@ public class ChangesStack {
 
     public synchronized void add(ChangeType changeType, Figure figure) {
         undoStack.push(new Change<>(changeType, figure, figure.copy()));
+        redoStack.clear();
     }
 
     public synchronized void undo() {
+        restore(undoStack, redoStack);
+    }
+
+    public synchronized void redo() {
+        restore(redoStack, undoStack);
+    }
+
+    private void restore(Stack<Change<Figure>> srcStack, Stack<Change<Figure>> destStack) {
         try {
-            Change<Figure> change = undoStack.pop();
+            Change<Figure> change = srcStack.pop();
+            Figure figureToRedo = change.getChangedObject().copy();
+
             switch (change.getChangeType()) {
                 case CHANGE_RESIZE:
                 case CHANGE_MOVE:
@@ -39,6 +50,16 @@ public class ChangesStack {
                     canvas.addFigure(change.getChangedObject());
                     break;
             }
+            ChangeType newChangeType = change.getChangeType();
+            if(change.getChangeType() == ChangeType.CHANGE_ADD)
+                newChangeType = ChangeType.CHANGE_REMOVE;
+
+            if(change.getChangeType() == ChangeType.CHANGE_REMOVE)
+                newChangeType = ChangeType.CHANGE_ADD;
+
+
+            destStack.push(new Change<>(newChangeType, change.getChangedObject(), figureToRedo));
         } catch (StackEmptyException ignored){}
     }
+
 }

@@ -30,6 +30,7 @@ import java.util.Optional;
 
 public class Controller {
     private final KeyCombination undoKc = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
+    private final KeyCombination redoKc = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN);
 
 
     @FXML
@@ -187,6 +188,10 @@ public class Controller {
             changesStack.undo();
             unselectAllWithColorUpdating();
             return;
+        } else if(redoKc.match(event)) {
+            changesStack.redo();
+            unselectAllWithColorUpdating();
+            return;
         }
         switch (event.getCode()) {
             case DELETE:
@@ -281,8 +286,8 @@ public class Controller {
             canvas.setBrushColor(color);
         } else { // Если есть выделенные фигуры, то меняем цвет для всех этих выделенных фигур
             selected.forEach(figure -> {
-                figure.setBrushColor(color);
                 changesStack.add(ChangeType.CHANGE_RECOLOR, figure);
+                figure.setBrushColor(color);
             });
             canvas.redraw();
         }
@@ -296,8 +301,8 @@ public class Controller {
             canvas.setPenColor(color);
         } else { // Если есть выделенные фигуры, то меняем цвет для всех этих выделенных фигур
             selected.forEach(figure -> {
-                figure.setPenColor(color);
                 changesStack.add(ChangeType.CHANGE_RECOLOR, figure);
+                figure.setPenColor(color);
             });
             canvas.redraw();
         }
@@ -311,8 +316,8 @@ public class Controller {
             canvas.setPenWidth(penWidth);
         } else {
             selected.forEach(figure -> {
-                figure.setPenWidth(penWidth);
                 changesStack.add(ChangeType.CHANGE_RECOLOR, figure);
+                figure.setPenWidth(penWidth);
             });
             canvas.redraw();
         }
