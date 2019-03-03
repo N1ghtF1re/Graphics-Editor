@@ -3,7 +3,7 @@ package men.brakh.graphicseditor.model.changes;
 import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
 import men.brakh.graphicseditor.model.exceptions.StackEmptyException;
 import men.brakh.graphicseditor.model.figure.Figure;
-import men.brakh.graphicseditor.stack.FixedStack;
+import men.brakh.graphicseditor.model.stack.FixedStack;
 
 import java.util.Stack;
 

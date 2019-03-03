@@ -1,4 +1,4 @@
-package men.brakh.graphicseditor.stack;
+package men.brakh.graphicseditor.model.stack;
 
 import men.brakh.graphicseditor.model.exceptions.StackEmptyException;
 
