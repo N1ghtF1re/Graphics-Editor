@@ -35,7 +35,7 @@ public abstract class AbstractLine implements Figure {
         AbstractLine newLine = null;
         try {
             newLine = this.getClass().getConstructor(AbstractCanvas.class, Point.class)
-                    .newInstance(this.canvas, this.points.get(0));
+                    .newInstance(this.canvas, this.points.get(0).copy());
 
             newLine.assign(this);
 
@@ -52,13 +52,13 @@ public abstract class AbstractLine implements Figure {
     public void assign(Figure figure) {
         AbstractLine line = (AbstractLine) figure;
 
-        line.canvas = this.canvas;
-        line.penColor = this.penColor;
-        line.penWidth = this.penWidth;
+        this.canvas = line.canvas;
+        this.penColor = line.penColor;
+        this.penWidth = line.penWidth;
 
         List<Point> newPoints = new ArrayList<>();
-        points.forEach(point -> newPoints.add(point.copy()));
-        line.points = newPoints;
+        line.points.forEach(point -> newPoints.add(point.copy()));
+        this.points = newPoints;
     }
 
 
