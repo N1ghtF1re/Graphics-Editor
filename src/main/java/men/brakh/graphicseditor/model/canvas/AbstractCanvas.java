@@ -109,7 +109,8 @@ public abstract class AbstractCanvas {
      * @return Опционал фигуры (Если в точке нет фигуры - опционал пустой)
      */
     public Optional<Figure> getFigureAtPoint(Point point) {
-        for(Figure figure : figures) {
+        for(int i = figures.size() - 1; i >= 0; i--) {
+            Figure figure = figures.get(i);
             PointType type = figure.checkPoint(point);
             if(type != PointType.UNKNOWN_POINT) {
                 return Optional.of(figure);
