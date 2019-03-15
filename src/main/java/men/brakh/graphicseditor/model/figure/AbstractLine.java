@@ -137,6 +137,8 @@ public abstract class AbstractLine implements Figure {
                     point.assign(toPoint);
                 }
         );
+
+        System.out.println(String.format("%s %s", toPoint.getX(), toPoint.getY()));
     }
 
     /**
@@ -182,10 +184,8 @@ public abstract class AbstractLine implements Figure {
     public void select() {
         int padding = config.getPointAreaSize();
         String color = config.getSelectionColor();
-
-
-        canvas.withColorSaving(color, color, config.getSelectionPenWidth(), () ->
-                {
+        
+        canvas.withColorSaving(color, color, config.getSelectionPenWidth(), () -> {
                     for(Point point : points) {
                         int x = point.getX();
                         int y = point.getY();

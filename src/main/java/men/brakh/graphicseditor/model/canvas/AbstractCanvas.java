@@ -235,6 +235,8 @@ public abstract class AbstractCanvas {
      */
     public abstract void drawStrokeRhombus(Point leftTop, Point rightBottom);
 
+    public abstract void drawTreangle(Point leftTop, Point rightBottom);
+
     /*
      * ПОЛЯ САМОГО КАНВАСА
      */

@@ -147,6 +147,35 @@ public class JavaFXCanvas extends AbstractCanvas {
     }
 
     @Override
+    public void drawTreangle(Point leftTop, Point rightBottom) {
+        int left = leftTop.getX();
+        int right = rightBottom.getX();
+
+        int middle = left + (right - left) / 2;
+
+        double xs[] = new double[]{middle, left ,right};
+        double ys[] = new double[]{leftTop.getY(), rightBottom.getY(), rightBottom.getY()};
+
+        gc.fillPolygon(xs, ys, xs.length);
+
+        changePointForStroke(leftTop, rightBottom);
+        drawStrokeTreangle(leftTop, rightBottom);
+    }
+
+    public void drawStrokeTreangle(Point leftTop, Point rightBottom) {
+        int left = leftTop.getX();
+        int right = rightBottom.getX();
+
+        int middle = left + (right - left) / 2;
+
+        double xs[] = new double[]{middle, left ,right};
+        double ys[] = new double[]{leftTop.getY(), rightBottom.getY(), rightBottom.getY()};
+
+        gc.strokePolygon(xs, ys, xs.length);
+    }
+
+
+    @Override
     public String getBrushColor() {
         return gc.getFill().toString();
     }

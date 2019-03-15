@@ -208,6 +208,7 @@ public abstract class AbstractRectFigure implements Figure {
             top = oldTop;
             bottom = oldBottom;
         }
+
     }
 
     /**
