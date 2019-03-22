@@ -8,6 +8,7 @@ import men.brakh.graphicseditor.model.PointType;
 import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
 import men.brakh.graphicseditor.model.canvas.impl.JavaFXCanvas;
 import men.brakh.graphicseditor.model.figure.*;
+import men.brakh.graphicseditor.model.figure.intf.Movable;
 
 public class FiguresListCell extends ListCell<String> {
     private final int canvasSize = 50;
@@ -29,14 +30,18 @@ public class FiguresListCell extends ListCell<String> {
         } else {
             FigureFactory.getFigure(name, canvas, new Point(padding, padding)).ifPresent(
                     figure -> {
-                        figure.move(new Point(config.getMinFigureWidth(), config.getMinFigureHeight()));
+                        if(figure instanceof Movable) {
+                            ((Movable) figure).move(new Point(config.getMinFigureWidth(), config.getMinFigureHeight()));
+                        }
                         if (figure instanceof AbstractSquareFigure) {
-                            figure.resize(PointType.RB_VERTEX, new Point(padding, padding), new Point(canvasSize - padding, canvasSize - padding));
+                            figure.moveStartPoint(PointType.RB_VERTEX, new Point(padding, padding), new Point(canvasSize - padding, canvasSize - padding));
                         } else if (figure instanceof AbstractRectFigure) {
-                            figure.move(new Point(0, padding));
-                            figure.resize(PointType.RB_VERTEX, new Point(padding, padding), new Point(canvasSize - padding, canvasSize - padding * 2));
+                            if(figure instanceof Movable) {
+                                ((Movable) figure).move(new Point(0, padding));
+                            }
+                            figure.moveStartPoint(PointType.RB_VERTEX, new Point(padding, padding), new Point(canvasSize - padding, canvasSize - padding * 2));
                         } else if (figure instanceof AbstractLine) {
-                            figure.resize(PointType.POINT_NODE, new Point(padding, padding), new Point(canvasSize - padding, canvasSize - padding * 2));
+                            figure.moveStartPoint(PointType.POINT_NODE, new Point(padding, padding), new Point(canvasSize - padding, canvasSize - padding * 2));
                         }
                     }
             );

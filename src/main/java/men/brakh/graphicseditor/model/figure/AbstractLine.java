@@ -111,6 +111,14 @@ public abstract class AbstractLine implements Figure {
     }
 
     /**
+     * Перемещение стартовой точки
+     */
+    @Override
+    public void moveStartPoint(PointType pointType, Point fromPoint, Point toPoint) {
+        resize(pointType, fromPoint, toPoint);
+    }
+
+    /**
      * Получение точки по координатам
      * @param needPoint координаты
      */
@@ -130,22 +138,18 @@ public abstract class AbstractLine implements Figure {
      * @param fromPoint Координата точки линии
      * @param toPoint Координата, куда надо переместить эту точку
      */
-    @Override
-    public void resize(PointType pointType, Point fromPoint, Point toPoint) {
+    protected void resize(PointType pointType, Point fromPoint, Point toPoint) {
         getPoint(fromPoint).ifPresent(
                 point -> {
                     point.assign(toPoint);
                 }
         );
-
-        System.out.println(String.format("%s %s", toPoint.getX(), toPoint.getY()));
     }
 
     /**
      * Перемещение линии
      */
-    @Override
-    public void move(Point deltaPoint) {
+    protected void move(Point deltaPoint) {
         for(Point point : points) {
             point.add(deltaPoint);
         }

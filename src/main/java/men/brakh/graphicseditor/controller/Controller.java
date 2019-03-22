@@ -20,6 +20,8 @@ import men.brakh.graphicseditor.model.changes.ChangesStack;
 import men.brakh.graphicseditor.model.figure.Figure;
 import men.brakh.graphicseditor.model.figure.FigureFactory;
 import men.brakh.graphicseditor.model.figure.impl.Rectangle;
+import men.brakh.graphicseditor.model.figure.intf.Movable;
+import men.brakh.graphicseditor.model.figure.intf.Resizable;
 import men.brakh.graphicseditor.view.controls.FiguresListCell;
 
 import java.util.List;
@@ -124,11 +126,18 @@ public class Controller {
             case MODE_VIEW:
                 break;
             case MODE_RESIZE:
-                currentFigure.resize(currPointType, prevPoint, clickedPoint);
+                if(currentFigure instanceof Resizable) {
+                    ((Resizable) currentFigure).resize(currPointType, prevPoint, clickedPoint);
+                }
                 break;
             case MODE_MOVE:
                 List<Figure> selectedFigures = canvas.getSelected();
-                selectedFigures.forEach(figure -> figure.move(clickedPoint.delta(prevPoint)));
+
+                selectedFigures.forEach(figure -> {
+                    if(figure instanceof Movable) {
+                        ((Movable) figure).move(clickedPoint.delta(prevPoint));
+                    }
+                });
                 break;
             case MODE_SELECTION:
                 currentFigure = selection;
@@ -144,7 +153,7 @@ public class Controller {
                         currPointType = pointType;
                         break;
                 }
-                currentFigure.resize(currPointType, prevPoint, clickedPoint);
+                currentFigure.moveStartPoint(currPointType, prevPoint, clickedPoint);
                 break;
 
 

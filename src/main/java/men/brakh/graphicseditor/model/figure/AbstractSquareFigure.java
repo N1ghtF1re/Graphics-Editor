@@ -78,8 +78,7 @@ public abstract class AbstractSquareFigure extends AbstractRectFigure{
      * @param pointType Тип точки, которую тянем ({@link PointType})
      * @param toPoint Точка, в которую переместили координату
      */
-    @Override
-    public void resize(PointType pointType, Point fromPoint, Point toPoint) {
+    protected void resize(PointType pointType, Point fromPoint, Point toPoint) {
         super.resize(pointType, fromPoint,  toPoint);
         equalizeSides(pointType);
     }

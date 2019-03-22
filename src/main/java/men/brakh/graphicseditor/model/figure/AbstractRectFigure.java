@@ -158,8 +158,7 @@ public abstract class AbstractRectFigure implements Figure {
      * @param fromPoint Не используется. Используется только в {@link AbstractLine}
      * @param toPoint Точка, в которую переместили вершину
      */
-    @Override
-    public void resize(PointType pointType, Point fromPoint, Point toPoint) {
+    protected void resize(PointType pointType, Point fromPoint, Point toPoint) {
         int oldLeft = left;
         int oldTop = top;
         int oldRight = right;
@@ -212,6 +211,14 @@ public abstract class AbstractRectFigure implements Figure {
     }
 
     /**
+     * Перемещение стартовой точки
+     */
+    @Override
+    public void moveStartPoint(PointType pointType, Point fromPoint, Point toPoint) {
+        resize(pointType, fromPoint, toPoint);
+    }
+
+    /**
      * Возвращает true, если текущая фигура находится внутри другой фигуры
      * @param rectFigure Другая фигура
      */
@@ -229,8 +236,7 @@ public abstract class AbstractRectFigure implements Figure {
      * Перемещение фигуры
      * @param deltaPoint delta перемещения
      */
-    @Override
-    public void move(Point deltaPoint) {
+    protected void move(Point deltaPoint) {
         left += deltaPoint.getX();
         right += deltaPoint.getX();
         bottom += deltaPoint.getY();
