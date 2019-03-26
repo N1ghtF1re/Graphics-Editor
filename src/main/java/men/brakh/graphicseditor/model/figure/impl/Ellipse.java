@@ -6,8 +6,9 @@ import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
 import men.brakh.graphicseditor.model.figure.AbstractRectFigure;
 import men.brakh.graphicseditor.model.figure.intf.Movable;
 import men.brakh.graphicseditor.model.figure.intf.Resizable;
+import men.brakh.graphicseditor.model.figure.intf.Selectable;
 
-public class Ellipse extends AbstractRectFigure implements Movable, Resizable {
+public class Ellipse extends AbstractRectFigure implements Movable, Resizable, Selectable {
     /**
      * Конструктор овала
      *
@@ -34,5 +35,10 @@ public class Ellipse extends AbstractRectFigure implements Movable, Resizable {
     @Override
     public void move(Point deltaPoint) {
         super.move(deltaPoint);
+    }
+
+    @Override
+    public void select() {
+        super.select();
     }
 }

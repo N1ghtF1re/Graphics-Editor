@@ -184,8 +184,7 @@ public abstract class AbstractLine implements Figure {
     /**
      * Выделение линии
      */
-    @Override
-    public void select() {
+    protected void select() {
         int padding = config.getPointAreaSize();
         String color = config.getSelectionColor();
         

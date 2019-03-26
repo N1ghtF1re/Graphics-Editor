@@ -4,6 +4,7 @@ import men.brakh.graphicseditor.model.Point;
 import men.brakh.graphicseditor.model.PointType;
 import men.brakh.graphicseditor.model.figure.AbstractRectFigure;
 import men.brakh.graphicseditor.model.figure.Figure;
+import men.brakh.graphicseditor.model.figure.intf.Selectable;
 
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -63,7 +64,13 @@ public abstract class AbstractCanvas {
         clear();
 
         figures.forEach(Figure::draw); // Отрисовываем каждую фигуру
-        selectedFigures.forEach(Figure::select); // Выделяем фигуры, которые нужно
+        selectedFigures.forEach(
+                figure -> {
+                    if(figure instanceof Selectable) {
+                        ((Selectable) figure).select();
+                    }
+                }
+        ); // Выделяем фигуры, которые нужно
     }
 
     /**
@@ -130,7 +137,9 @@ public abstract class AbstractCanvas {
      */
     public void select(Figure figure) {
         selectedFigures.add(figure);
-        figure.select();
+        if(figure instanceof Selectable) {
+            ((Selectable) figure).select();
+        }
     }
 
     /**
@@ -140,7 +149,13 @@ public abstract class AbstractCanvas {
     public void selectAll(Collection<Figure> figures) {
         selectedFigures.addAll(figures);
 
-        figures.forEach(Figure::select);
+        figures.forEach(
+                figure -> {
+                    if(figure instanceof Selectable) {
+                        ((Selectable) figure).select();
+                    }
+                }
+        );
     }
 
     /**

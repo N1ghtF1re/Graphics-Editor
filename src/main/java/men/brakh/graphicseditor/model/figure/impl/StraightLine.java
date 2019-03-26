@@ -7,8 +7,9 @@ import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
 import men.brakh.graphicseditor.model.figure.AbstractLine;
 import men.brakh.graphicseditor.model.figure.intf.Movable;
 import men.brakh.graphicseditor.model.figure.intf.Resizable;
+import men.brakh.graphicseditor.model.figure.intf.Selectable;
 
-public class StraightLine extends AbstractLine implements Resizable, Movable {
+public class StraightLine extends AbstractLine implements Resizable, Movable, Selectable {
     private GraphicEditorConfig config = GraphicEditorConfig.getInstance();
 
     public StraightLine(AbstractCanvas canvas, Point startPoint) {
@@ -38,6 +39,7 @@ public class StraightLine extends AbstractLine implements Resizable, Movable {
 
     }
 
+
     @Override
     public void resize(PointType pointType, Point fromPoint, Point toPoint) {
         super.resize(pointType, fromPoint, toPoint);
@@ -46,5 +48,10 @@ public class StraightLine extends AbstractLine implements Resizable, Movable {
     @Override
     public void move(Point deltaPoint) {
         super.move(deltaPoint);
+    }
+
+    @Override
+    public void select() {
+        super.select();
     }
 }

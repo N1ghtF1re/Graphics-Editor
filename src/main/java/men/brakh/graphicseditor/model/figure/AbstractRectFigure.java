@@ -270,8 +270,7 @@ public abstract class AbstractRectFigure implements Figure {
     /**
      * Выделение фигуры на полотне
      */
-    @Override
-    public final void select() {
+    protected void select() {
         int padding = config.getPointAreaSize();
         String color = config.getSelectionColor();
 

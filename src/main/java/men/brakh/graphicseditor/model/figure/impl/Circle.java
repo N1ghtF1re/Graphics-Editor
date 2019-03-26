@@ -6,8 +6,9 @@ import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
 import men.brakh.graphicseditor.model.figure.AbstractSquareFigure;
 import men.brakh.graphicseditor.model.figure.intf.Movable;
 import men.brakh.graphicseditor.model.figure.intf.Resizable;
+import men.brakh.graphicseditor.model.figure.intf.Selectable;
 
-public class Circle extends AbstractSquareFigure implements Movable, Resizable {
+public class Circle extends AbstractSquareFigure implements Movable, Resizable, Selectable {
     /**
      * Конструктор круга
      *
@@ -34,5 +35,10 @@ public class Circle extends AbstractSquareFigure implements Movable, Resizable {
     @Override
     public void resize(PointType pointType, Point fromPoint, Point toPoint) {
         super.resize(pointType, fromPoint, toPoint);
+    }
+
+    @Override
+    public void select() {
+        super.select();
     }
 }
