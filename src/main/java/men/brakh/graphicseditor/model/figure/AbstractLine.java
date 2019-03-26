@@ -4,12 +4,13 @@ import men.brakh.graphicseditor.config.GraphicEditorConfig;
 import men.brakh.graphicseditor.model.Point;
 import men.brakh.graphicseditor.model.PointType;
 import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
+import men.brakh.graphicseditor.model.figure.intf.TextSerializible;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractLine implements Figure {
+public abstract class AbstractLine implements Figure, TextSerializible {
     private GraphicEditorConfig config = GraphicEditorConfig.getInstance();
 
     private String penColor;
@@ -203,6 +204,51 @@ public abstract class AbstractLine implements Figure {
                 }
         );
     }
+
+    /**
+     * Сериализация в CSV
+     */
+    @Override
+    public String serialize() {
+        // ClassName ; PENCOLOR; PENSIZE ; x0 ; y0 ; ... ; xN ; yN
+        StringBuilder row =  new StringBuilder(String.format("%s;%s;%d",
+                this.getClass().getSimpleName(), penColor, penWidth));
+        points.forEach(
+                point -> row.append(String.format(";%d;%d", point.getX(), point.getY()))
+        );
+        row.append("\n");
+
+        return row.toString();
+    }
+
+    /**
+     * Десериализация из CSV
+     * @param text csv
+     */
+    @Override
+    public boolean deserialize(String text) {
+        try {
+            String[] rows = text.split(";");
+
+            if (rows.length < 5 || rows.length % 2 == 0)
+                return false;
+
+            penColor = rows[1];
+            penWidth = Integer.parseInt(rows[2]);
+            this.points.clear();
+
+            for(int i = 3; i < rows.length; i = i + 2) {
+                Point point = new Point(Integer.parseInt(rows[i]), Integer.parseInt(rows[i + 1]));
+                points.add(point);
+            }
+            return true;
+        } catch (Exception e) {
+            System.out.println("KEK");
+            canvas.removeFigure(this);
+            return  false;
+        }
+    }
+
 
     /**
      * Ортрисовка

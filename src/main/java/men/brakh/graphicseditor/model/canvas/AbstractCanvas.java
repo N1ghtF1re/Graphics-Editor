@@ -205,6 +205,10 @@ public abstract class AbstractCanvas {
         return new ArrayList<>(selectedFigures);
     }
 
+    public List<Figure> getAllFigures() {
+        return figures;
+    }
+
     /*
      * РИСОВАНИЕ
      */

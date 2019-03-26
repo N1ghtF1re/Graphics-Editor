@@ -9,6 +9,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import men.brakh.graphicseditor.config.GraphicEditorConfig;
 import men.brakh.graphicseditor.model.Mode;
 import men.brakh.graphicseditor.model.Point;
@@ -22,8 +23,15 @@ import men.brakh.graphicseditor.model.figure.FigureFactory;
 import men.brakh.graphicseditor.model.figure.impl.Rectangle;
 import men.brakh.graphicseditor.model.figure.intf.Movable;
 import men.brakh.graphicseditor.model.figure.intf.Resizable;
+import men.brakh.graphicseditor.model.figure.serializer.CsvFigureSerializer;
+import men.brakh.graphicseditor.model.figure.serializer.FigureSerializer;
 import men.brakh.graphicseditor.view.controls.FiguresListCell;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Optional;
 
@@ -371,5 +379,75 @@ public class Controller {
         }
 
         menuRedo.setDisable(false);
+    }
+
+    private void alert(Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("ERROR");
+        alert.setHeaderText("ERROR:");
+        alert.setContentText(e.getMessage());
+
+        alert.showAndWait();
+    }
+
+    @FXML
+    void menuSaveAsClicked(Event event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save this painting");
+        FileChooser.ExtensionFilter extFilter =
+                new FileChooser.ExtensionFilter("BRAKH files (*.brakh)", "*.brakh");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            String filepath = file.getPath();
+            if(!file.getName().endsWith(".brakh")) {
+                filepath += ".brakh";
+            }
+            List<Figure> figures = canvas.getAllFigures();
+
+            FigureSerializer serializer = new CsvFigureSerializer();
+            String csv = serializer.serialize(figures);
+
+            try {
+                Files.write(Paths.get(filepath), csv.getBytes(),
+                        StandardOpenOption.CREATE,
+                        StandardOpenOption.TRUNCATE_EXISTING );
+            } catch (IOException e) {
+                alert(e);
+            }
+        }
+    }
+
+    @FXML
+    void menuOpenClicked(Event event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open this painting");
+        FileChooser.ExtensionFilter extFilter =
+                new FileChooser.ExtensionFilter("BRAKH files (*.brakh)", "*.brakh");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showOpenDialog(null);
+        if (file != null) {
+            try {
+                List<String> rows = Files.readAllLines(Paths.get(file.getPath()));
+
+                FigureSerializer serializer = new CsvFigureSerializer();
+
+                List<Figure> figures = serializer.deserialize(canvas, rows);
+
+                if(figures.size() == 0) {
+                    alert(new RuntimeException("Invalid or empty file"));
+                } else {
+                    canvas.removeAll();
+                    figures.forEach(
+                            figure -> canvas.addFigure(figure)
+                    );
+
+                }
+
+
+            } catch (IOException e) {
+                alert(new RuntimeException("Invalid or empty file"));
+            }
+        }
     }
 }

@@ -51,6 +51,8 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#menuNewClicked" text="New" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuSaveAsClicked" text="Save as" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuOpenClicked" text="Open" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">

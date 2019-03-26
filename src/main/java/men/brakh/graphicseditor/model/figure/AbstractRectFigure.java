@@ -4,11 +4,12 @@ import men.brakh.graphicseditor.config.GraphicEditorConfig;
 import men.brakh.graphicseditor.model.Point;
 import men.brakh.graphicseditor.model.PointType;
 import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
+import men.brakh.graphicseditor.model.figure.intf.TextSerializible;
 
 /**
  * Фигура, которую можно вписать в прямоугольник (По факту, на данный момени, все кроме линии)
  */
-public abstract class AbstractRectFigure implements Figure {
+public abstract class AbstractRectFigure implements Figure, TextSerializible {
     private GraphicEditorConfig config = GraphicEditorConfig.getInstance();
 
     protected AbstractCanvas canvas;
@@ -290,6 +291,44 @@ public abstract class AbstractRectFigure implements Figure {
                 }
         );
 
+    }
+
+    /**
+     * Сериализация в CSV
+     */
+    @Override
+    public String serialize() {
+        // ClassName ; BRUSHCOLOR ; PENCOLOR; PENSIZE ; LEFT ; TOP ; RIGHT ; BOTTOM;
+        return String.format("%s;%s;%s;%d;%d;%d;%d;%d\n",
+                this.getClass().getSimpleName(), brushColor, penColor, penWidth, left, top, right, bottom);
+    }
+
+    /**
+     * Десериализация из CSV
+     * @param text csv
+     */
+    @Override
+    public boolean deserialize(String text) {
+        try {
+            String[] rows = text.split(";");
+
+            if(rows.length != 8)
+                return false;
+
+            brushColor = rows[1];
+            penColor = rows[2];
+            penWidth = Integer.parseInt(rows[3]);
+            left = Integer.parseInt(rows[4]);
+            top = Integer.parseInt(rows[5]);
+            right = Integer.parseInt(rows[6]);
+            bottom = Integer.parseInt(rows[7]);
+
+
+            return true;
+        } catch (Exception e) {
+            canvas.removeFigure(this);
+            return  false;
+        }
     }
 
     /**
