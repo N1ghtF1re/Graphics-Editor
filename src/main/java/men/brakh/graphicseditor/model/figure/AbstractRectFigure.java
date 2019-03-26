@@ -41,7 +41,8 @@ public abstract class AbstractRectFigure implements Figure, TextSerializible {
         this.penColor = canvas.getPenColor();
         this.penWidth = canvas.getPenWidth();
 
-        canvas.addFigure(this);
+        if(canvas != null)
+            canvas.addFigure(this);
     }
 
 

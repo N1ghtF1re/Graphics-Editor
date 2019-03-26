@@ -28,7 +28,8 @@ public abstract class AbstractLine implements Figure, TextSerializible {
         this.penColor = canvas.getPenColor();
         this.penWidth = canvas.getPenWidth();
 
-        canvas.addFigure(this);
+        if(canvas != null)
+            canvas.addFigure(this);
     }
 
     @Override

@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class CsvFigureSerializer implements FigureSerializer {
+
+    /**
+     * Сериализация фигур
+     * @param objects фигуры
+     * @return Сформированная CSV-строка
+     */
     @Override
     public String serialize(List<Figure> objects) {
         StringBuilder csv = new StringBuilder();
@@ -25,6 +31,12 @@ public class CsvFigureSerializer implements FigureSerializer {
         return csv.toString();
     }
 
+    /**
+     * Десерализация фигур
+     * @param canvas Канвас, на который нужно поместить сериализированные фигуры
+     * @param rows - Список строк CSV файла
+     * @return Список фигур
+     */
     @Override
     public List<Figure> deserialize(AbstractCanvas canvas, List<String> rows) {
         List<Figure> figures = new ArrayList<>();
