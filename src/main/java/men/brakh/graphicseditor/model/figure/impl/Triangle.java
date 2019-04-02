@@ -8,21 +8,21 @@ import men.brakh.graphicseditor.model.figure.intf.Movable;
 import men.brakh.graphicseditor.model.figure.intf.Resizable;
 import men.brakh.graphicseditor.model.figure.intf.Selectable;
 
-public class Treeangle extends AbstractRectFigure implements Resizable, Movable, Selectable {
+public class Triangle extends AbstractRectFigure implements Resizable, Movable, Selectable {
     /**
      * Конструктор фигуры, которую можно вписать в прямоугольник
      *
      * @param canvas     Объект канваса
      * @param startPoint Начальные координаты
      */
-    public Treeangle(AbstractCanvas canvas, Point startPoint) {
+    public Triangle(AbstractCanvas canvas, Point startPoint) {
         super(canvas, startPoint);
     }
 
     @Override
     public void draw() {
         canvas.withColorSaving(getBushColor(), getPenColor(), getPenWidth(), () -> {
-            canvas.drawTreangle(getLeftTopPoint(), getRightBottomPoint());
+            canvas.drawTriangle(getLeftTopPoint(), getRightBottomPoint());
             return null;
         });
     }

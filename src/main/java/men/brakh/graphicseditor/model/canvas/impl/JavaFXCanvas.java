@@ -147,7 +147,7 @@ public class JavaFXCanvas extends AbstractCanvas {
     }
 
     @Override
-    public void drawTreangle(Point leftTop, Point rightBottom) {
+    public void drawTriangle(Point leftTop, Point rightBottom) {
         int left = leftTop.getX();
         int right = rightBottom.getX();
 
@@ -159,10 +159,10 @@ public class JavaFXCanvas extends AbstractCanvas {
         gc.fillPolygon(xs, ys, xs.length);
 
         changePointForStroke(leftTop, rightBottom);
-        drawStrokeTreangle(leftTop, rightBottom);
+        drawStrokeTriangle(leftTop, rightBottom);
     }
 
-    public void drawStrokeTreangle(Point leftTop, Point rightBottom) {
+    public void drawStrokeTriangle(Point leftTop, Point rightBottom) {
         int left = leftTop.getX();
         int right = rightBottom.getX();
 

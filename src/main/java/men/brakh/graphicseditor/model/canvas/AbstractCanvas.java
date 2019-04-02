@@ -136,8 +136,8 @@ public abstract class AbstractCanvas {
      * @param figure Объект фигуры
      */
     public void select(Figure figure) {
-        selectedFigures.add(figure);
         if(figure instanceof Selectable) {
+            selectedFigures.add(figure);
             ((Selectable) figure).select();
         }
     }
@@ -255,7 +255,7 @@ public abstract class AbstractCanvas {
      */
     public abstract void drawStrokeRhombus(Point leftTop, Point rightBottom);
 
-    public abstract void drawTreangle(Point leftTop, Point rightBottom);
+    public abstract void drawTriangle(Point leftTop, Point rightBottom);
 
     /*
      * ПОЛЯ САМОГО КАНВАСА

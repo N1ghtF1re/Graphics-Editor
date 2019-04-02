@@ -54,4 +54,13 @@ public class StraightLine extends AbstractLine implements Resizable, Movable, Se
     public void select() {
         super.select();
     }
+
+    @Override
+    public boolean deserialize(String text) {
+        if(text.split(";").length != 7) {
+            return false;
+        } else {
+            return super.deserialize(text);
+        }
+    }
 }

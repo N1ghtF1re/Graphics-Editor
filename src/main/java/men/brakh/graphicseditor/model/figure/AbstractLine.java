@@ -231,7 +231,7 @@ public abstract class AbstractLine implements Figure, TextSerializible {
         try {
             String[] rows = text.split(";");
 
-            if (rows.length < 5 || rows.length % 2 == 0)
+            if (rows.length < 7 || rows.length % 2 == 0)
                 return false;
 
             penColor = rows[1];
