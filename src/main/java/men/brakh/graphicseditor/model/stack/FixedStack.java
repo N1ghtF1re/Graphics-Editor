@@ -18,7 +18,7 @@ public final class FixedStack<T> extends Stack<T> {
     public T push(T el) {
         super.push(el);
         if(super.size() > maxSize) { // Если стек переполнен - выкидываем старые изменения
-            super.pop();
+            super.remove(0);
         }
         return el;
     }
