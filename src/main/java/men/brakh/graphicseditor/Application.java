@@ -13,6 +13,7 @@ public class Application extends javafx.application.Application {
     private GraphicEditorConfig config = GraphicEditorConfig.getInstance();
 
 
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("view.fxml")));
