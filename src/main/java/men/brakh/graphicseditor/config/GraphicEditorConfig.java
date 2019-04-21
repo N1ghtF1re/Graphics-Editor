@@ -56,6 +56,11 @@ public class GraphicEditorConfig {
      */
     private int changesStackSize;
 
+    /**
+     * Путь к библиотекам с фигурами
+     */
+    private String libsPath;
+
     /*
      * ГЕТТЕРЫ, КОНСТРУКТОР
      */
@@ -96,6 +101,10 @@ public class GraphicEditorConfig {
         return changesStackSize;
     }
 
+    public String getLibsPath() {
+        return libsPath;
+    }
+
     /**
      * Получение синглтона
      */
@@ -126,5 +135,6 @@ public class GraphicEditorConfig {
         selectionColor = editorProps.getProperty("selection.color");
         selectionPenWidth = Integer.valueOf(editorProps.getProperty("selection.pen.width"));
         changesStackSize = Integer.valueOf(editorProps.getProperty("changesStack.size"));
+        libsPath = editorProps.getProperty("figures.lib.path");
     }
 }

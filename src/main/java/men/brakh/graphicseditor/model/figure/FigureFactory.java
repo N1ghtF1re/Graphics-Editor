@@ -1,15 +1,20 @@
 package men.brakh.graphicseditor.model.figure;
 
+import men.brakh.graphicseditor.config.GraphicEditorConfig;
 import men.brakh.graphicseditor.model.Point;
 import men.brakh.graphicseditor.model.canvas.AbstractCanvas;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
 /**
@@ -51,29 +56,49 @@ public class FigureFactory {
      * Метод, который возвращает все классы, идующие от интерфейса Figure
      */
     private static List<Class<Figure>> getActualFigures() {
-        String currentPackage = Figure.class.getPackage().getName();
 
-        String packageName = currentPackage + ".impl";
+        GraphicEditorConfig config = GraphicEditorConfig.getInstance();
 
         List<Class<Figure>> figures = new ArrayList<>();
-        URL root = Thread.currentThread().getContextClassLoader().getResource(packageName.replace(".", "/"));
 
-        File[] files = new File(Objects.requireNonNull(root).getFile()).listFiles((dir, name) -> name.endsWith(".class"));
+        File folder = new File(Paths.get(config.getLibsPath()).toAbsolutePath().toString());
+        File[] listOfFiles = folder.listFiles();
+
+        if(listOfFiles == null) return figures;
+
+        for (File listOfFile : listOfFiles) {
+            if (listOfFile.isFile()) {
+                try {
+                    JarFile jarFile = new JarFile(listOfFile.getAbsolutePath());
+                    Enumeration<JarEntry> e = jarFile.entries();
+
+                    URL[] urls = {new URL("jar:file:" + listOfFile.getAbsolutePath() + "!/")};
+                    URLClassLoader cl = URLClassLoader.newInstance(urls);
+
+                    while (e.hasMoreElements()) {
+                        JarEntry je = e.nextElement();
+                        if (je.isDirectory() || !je.getName().endsWith(".class")) {
+                            continue;
+                        }
+                        // -6 because of .class
+                        String className = je.getName().substring(0, je.getName().length() - 6);
+                        className = className.replace('/', '.');
+
+                        Class cls = cl.loadClass(className);
+
+                        if (Figure.class.isAssignableFrom(cls)) {
+                            figures.add((Class<Figure>) cls);
+                        }
 
 
-        for (File file : Objects.requireNonNull(files)) {
-            String className = file.getName().replaceAll(".class$", "");
-            Class<?> cls = null;
-            try {
-                cls = Class.forName(packageName + "." + className);
-                if (Figure.class.isAssignableFrom(cls)) {
-                    figures.add((Class<Figure>) cls);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
-
         }
+
+
         return figures;
     }
 }
